@@ -1,12 +1,12 @@
 # PACMANDashboard
 
-Starter setup for a PACMAN-inspired dashboard using React, Tailwind CSS, and shadcn/ui foundations.
+PACMAN-inspired dashboard built with React, Vite, TypeScript, and Tailwind CSS.
 
 ## Stack
 
 - React + Vite + TypeScript
 - Tailwind CSS
-- shadcn/ui base config (with path aliases)
+- Lucide React icons
 
 ## Quick Start
 
@@ -20,15 +20,10 @@ Starter setup for a PACMAN-inspired dashboard using React, Tailwind CSS, and sha
 
 3. Open the local URL shown by Vite (usually http://localhost:5173).
 
-## Included Setup
+## Project Structure
 
-- Vite app scaffold with TypeScript
-- Tailwind wired via PostCSS
-- shadcn/ui config file: components.json
-- Path alias configured: @ -> src
-- Starter dashboard shell in src/App.tsx
-- Example shadcn-style button component in src/components/ui/button.tsx
-
-## Next Phase
-
-The current UI is a starter shell so we can move quickly to the full PACMAN tile dashboard build in the next step.
+- src/App.tsx: route guard and page shell
+- src/components/layout: navbar and dashboard header
+- src/components/dashboard/dasboardcard.tsx: main dashboard cards and interactions
+- src/assets: logo and background image
+- src/index.css: global styles

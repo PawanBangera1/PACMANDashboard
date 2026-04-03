@@ -1,7 +1,33 @@
+import Navbar from "./components/layout/navbar";
+import DashboardCard from "./components/dashboard/dasboardcard";
+
+const pacmanBg = new URL("./assets/pacman_bg.jpg", import.meta.url).href;
+
 export default function App() {
+  if (window.location.pathname === "/") {
+    window.history.replaceState({}, "", "/home/dashboard");
+  }
+
+  if (window.location.pathname !== "/home/dashboard") {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-slate-950 text-white">
+        <p className="text-lg">Page not found.</p>
+      </main>
+    );
+  }
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl items-center justify-center px-6 py-10">
-        <h1 className="text-2xl font-semibold text-slate-900">PACMAN Dashboard</h1>
-    </div>
+    <main
+      className="min-h-screen bg-slate-950 text-white"
+      style={{
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)), url(${pacmanBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat"
+      }}
+    >
+      <Navbar />
+      <DashboardCard />
+    </main>
   );
 }
