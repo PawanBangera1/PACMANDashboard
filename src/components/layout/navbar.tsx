@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Bell, Menu, CircleUser } from "lucide-react";
 
 const logoPacMan = new URL("../../assets/logo_pacman.svg", import.meta.url).href;
