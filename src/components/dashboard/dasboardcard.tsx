@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { DollarSign, Cloud, ShieldCheck, Activity, PieChart, Database } from 'lucide-react';
 import Dashboardheader from '../layout/dashboardheader';
+import CostGraph from './costgraph';
 
 type CardId = 'cost' | 'inventory' | 'compliance' | 'monitoring' | 'utilization' | 'storage';
 
@@ -73,15 +74,19 @@ export default function Dashboard() {
           ${isActive ? 'ring-1 ring-[#e91e85]/20 z-10' : 'z-0'}
           rounded-sm p-3`}
       >
-        <div className="flex flex-col items-center justify-center h-full text-center">
-          {/* Header */}
-          <div className="flex items-center space-x-2 text-gray-400 mb-2 md:mb-4 uppercase tracking-widest font-bold text-[9px]">
+        <div className="flex flex-col items-center justify-center h-full text-center grid-cols-12">
+          <div className="flex items-center  space-x-2 text-slate-500 mb-2 md:mb-4 uppercase font-bold text-sm grid-cols-4">
             {icon} <span>{title}</span>
           </div>
+
+          {id === 'cost' && isActive ? (
+            <div className="w-full mb-2 text-left overflow-hidden">
+              <CostGraph />
+            </div>
+          ) : null}
           
-          {/* Main Stat - Responsive font sizing */}
           <div className="flex items-baseline gap-1">
-             <h2 className={`font-bold text-[#e91e85] transition-all duration-500 ${isActive ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'}`}>
+             <h2 className={`font-bold text-[#e91e85] transition-all duration-500 ${isActive ? 'text-2xl md:text-3xl' : 'text-2xl md:text-3xl'}`}>
                {mainVal}
              </h2>
              <span className={`text-[#e91e85] font-bold leading-none transition-all ${isActive ? 'text-[10px]' : 'text-[8px]'}`}>
@@ -90,32 +95,30 @@ export default function Dashboard() {
           </div>
           <p className="text-gray-400 text-[9px] mt-0.5">Unique Last 30 days</p>
 
-          {/* Chart View */}
           <div
             className={`grid transition-all duration-700 ease-in-out w-full ${
               isActive ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'
             }`}
           >
             <div className="overflow-hidden">
-              <div className="h-32 md:h-48 rounded border border-dashed border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400 text-[10px]">
-                DETAILED CHART VIEW
-              </div>
+              {id === 'cost' ? null : (
+                <div className="h-32 md:h-48 rounded border border-dashed border-gray-200 bg-gray-50 flex items-center justify-center text-gray-400 text-[10px]">
+                  DETAILED CHART VIEW
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Sub Grid */}
           {subGrid && (
             <div className={`grid grid-cols-4 gap-1 w-full px-2 transition-all duration-500 ${isActive ? 'mt-6' : 'mt-2'}`}>
               {subGrid.map((item, idx) => (
                 <div key={idx} className="flex flex-col">
-                  <span className={`text-[#e91e85] font-bold ${isActive ? 'text-sm' : 'text-[10px]'}`}>{item.val}</span>
+                  <span className={`text-[#e91e85] font-bold ${isActive ? 'text-sm' : 'text-sm'}`}>{item.val}</span>
                   <span className="text-gray-400 text-[8px] uppercase truncate">{item.label}</span>
                 </div>
               ))}
             </div>
           )}
-          
-
         </div>
       </div>
     );
