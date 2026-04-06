@@ -4,7 +4,7 @@ const logoPacMan = new URL("../../assets/logo_pacman.svg", import.meta.url).href
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black/20 bg-black/40 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-black/20 bg-[#3c3c3c]/70">
       <div className="mx-auto flex h-18 max-w-screen-2xl items-center justify-between gap-4 px-6 sm:px-6 lg:px-8">
         <button
           type="button"
