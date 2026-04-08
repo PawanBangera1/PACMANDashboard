@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="PACMAN">
+  <rect width="64" height="64" rx="12" fill="#0f172a"/>
+  <circle cx="32" cy="32" r="20" fill="#e10098"/>
+  <circle cx="42" cy="24" r="4" fill="#ffffff"/>
+  <path d="M32 32 L58 20 A28 28 0 0 1 58 44 Z" fill="#0f172a"/>
+</svg>
