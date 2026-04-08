@@ -3,16 +3,18 @@ import React from 'react';
 type StorageItem = {
   label: string;
   value: string;
+  percent: number;
   panelBg: string;
   labelColor: string;
   stripColor: string;
   flexGrow: number;
 };
 
-const items: StorageItem[] = [
+export const storageDetailSeries: StorageItem[] = [
   {
     label: 'EBS',
     value: '1.25PB',
+    percent: 30.12,
     panelBg: '#FDECEF',
     labelColor: '#ea5c80',
     stripColor: '#ea5c80',
@@ -21,6 +23,7 @@ const items: StorageItem[] = [
   {
     label: 'S3',
     value: '1.5PB',
+    percent: 36.14,
     panelBg: '#E9F4F7',
     labelColor: '#72b4c5',
     stripColor: '#72b4c5',
@@ -29,6 +32,7 @@ const items: StorageItem[] = [
   {
     label: 'GLACIER',
     value: '0.75PB',
+    percent: 18.07,
     panelBg: '#F9F3D9',
     labelColor: '#d3aa00',
     stripColor: '#d3aa00',
@@ -37,6 +41,7 @@ const items: StorageItem[] = [
   {
     label: 'OTHER',
     value: '0.65PB',
+    percent: 15.66,
     panelBg: '#EDF0DB',
     labelColor: '#90a00d',
     stripColor: '#90a00d',
@@ -44,9 +49,15 @@ const items: StorageItem[] = [
   },
 ];
 
-export default function StorageGraph() {
+type StorageGraphProps = {
+  detail?: boolean;
+};
+
+export default function StorageGraph({ detail = false }: StorageGraphProps) {
+  const items = storageDetailSeries;
+
   return (
-    <div className="w-full bg-white px-8">
+    <div className={`w-full bg-white ${detail ? 'px-10' : 'px-8'}`}>
       <div className="flex w-full items-end">
         {items.map((item, index) => (
           <div 
@@ -55,14 +66,15 @@ export default function StorageGraph() {
             style={{ flex: item.flexGrow }}
           >
             <div
-              className="mb-2 text-[10px] font-bold uppercase tracking-wider"
+              className={`mb-2 text-center uppercase tracking-wider ${detail ? 'text-xs' : 'text-sm'}`}
               style={{ color: item.labelColor, paddingLeft: index === 0 ? '0' : '8px' }}
             >
               {item.label}
+              {detail ? <div>{item.percent.toFixed(2)}%</div> : null}
             </div>
 
             <div
-              className="relative h-44 border-l"
+              className={`relative border-l ${detail ? 'h-72' : 'h-44'}`}
               style={{
                 backgroundColor: item.panelBg,
                 borderLeftColor: item.stripColor,
@@ -70,7 +82,7 @@ export default function StorageGraph() {
               }}
             >
               <div
-                className="absolute bottom-0 left-0 h-4 w-full"
+                className={`absolute bottom-0 left-0 w-full ${detail ? 'h-5' : 'h-4'}`}
                 style={{ backgroundColor: item.stripColor }}
               />
               
@@ -86,7 +98,7 @@ export default function StorageGraph() {
               )}
             </div>
 
-            <div className="mt-6 text-center text-[12px] font-medium text-gray-500">
+            <div className={`mt-6 text-center font-medium text-gray-500 ${detail ? 'text-xs' : 'text-sm'}`}>
               {item.value}
             </div>
           </div>
