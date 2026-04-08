@@ -113,7 +113,7 @@ export default function Dashboard() {
 
   const handleCardClick = (id: CardId) => {
     if (id === 'cost' && activeCard === 'cost') {
-      window.location.assign('/dashbord/code');
+      window.location.assign('/dashbord/cost');
       return;
     }
 

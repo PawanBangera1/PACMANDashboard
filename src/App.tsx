@@ -31,7 +31,7 @@ export default function App() {
     );
   }
 
-  if (window.location.pathname === "/dashbord/code") {
+  if (window.location.pathname === "/dashbord/cost" || window.location.pathname === "/dashbord/code") {
     return (
       <main
         className="min-h-screen bg-slate-950 text-white"
