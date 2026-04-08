@@ -127,6 +127,11 @@ export default function Dashboard() {
       return;
     }
 
+    if (id === 'compliance' && activeCard === 'compliance') {
+      window.location.assign('/dashbord/compliance');
+      return;
+    }
+
     if (id === 'storage' && activeCard === 'storage') {
       window.location.assign('/dashbord/storage');
       return;
