@@ -55,3 +55,13 @@ export type ComplianceDetailRow = {
   label6: string;
   label7: string;
 };
+
+export type UtilizationDetailRow = {
+  label1: string;
+  number: string;
+  date: string;
+  label4: string;
+  label5: string;
+  label6: string;
+  label7: string;
+};

@@ -5,6 +5,7 @@ import InventoryDetailPage from "./components/detailedOverview/inventorydetailpa
 import MonitoringDetailPage from "./components/detailedOverview/monitoringdetailpage";
 import StorageDetailPage from "./components/detailedOverview/storagedetailpage";
 import ComplianceDetailPage from "./components/detailedOverview/compliancedetailpage";
+import UtilizationDetailPage from "./components/detailedOverview/utilizationdetailpage";
 
 const pacmanBg = new URL("./assets/pacman_bg.jpg", import.meta.url).href;
 
@@ -111,6 +112,23 @@ export default function App() {
       >
         <Navbar />
         <ComplianceDetailPage />
+      </main>
+    );
+  }
+
+  if (window.location.pathname === "/dashbord/utilization") {
+    return (
+      <main
+        className="min-h-screen bg-slate-950 text-white"
+        style={{
+          backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)), url(${pacmanBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat"
+        }}
+      >
+        <Navbar />
+        <UtilizationDetailPage />
       </main>
     );
   }

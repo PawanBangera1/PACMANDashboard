@@ -2,7 +2,7 @@ import React from 'react';
 import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, CartesianGrid } from 'recharts';
 
 // Mock data to simulate the waves in your image
-const data = [
+export const utilizationDetailSeries = [
   { cpu: 10, io1: 160, io2: 100, disk1: 52, disk2: 24 },
   { cpu: 12, io1: 180, io2: 120, disk1: 50, disk2: 26 },
   { cpu: 9,  io1: 140, io2: 130, disk1: 53, disk2: 25 },
@@ -14,7 +14,13 @@ const data = [
   { cpu: 14, io1: 150, io2: 110, disk1: 53, disk2: 25 },
 ];
 
-const UtilizationGraph = () => {
+type UtilizationGraphProps = {
+  detail?: boolean;
+};
+
+const UtilizationGraph = ({ detail = false }: UtilizationGraphProps) => {
+  const chartHeight = detail ? 84 : 70;
+
   return (
     <div className="flex flex-col h-full px-6 pt-4 pb-4 bg-white">
       
@@ -26,8 +32,8 @@ const UtilizationGraph = () => {
         </div>
         <div className="flex-1 relative">
           <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1">CPU</p>
-          <ResponsiveContainer width="100%" height={70}>
-            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <LineChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 20]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
@@ -45,8 +51,8 @@ const UtilizationGraph = () => {
         </div>
         <div className="flex-1 relative">
           <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1 text-xs">I/O</p>
-          <ResponsiveContainer width="100%" height={70}>
-            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <LineChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 400]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
@@ -65,8 +71,8 @@ const UtilizationGraph = () => {
         </div>
         <div className="flex-1 relative">
           <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1">DISK</p>
-          <ResponsiveContainer width="100%" height={70}>
-            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+          <ResponsiveContainer width="100%" height={chartHeight}>
+            <LineChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 100]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
