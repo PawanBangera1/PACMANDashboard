@@ -47,7 +47,7 @@ export default function MonitoringGraph() {
     <div className="w-full bg-white px-8 py-2 md:py-2">
       <div className="space-y-1">
         {rows.map((row, rowIndex) => (
-          <div key={rowIndex} className="grid grid-cols-4 place-items-center gap-y-1 md:grid-cols-8">
+          <div key={rowIndex} className="grid grid-cols-4 place-items-center gap-y-1 md:grid-cols-4 lg:grid-cols-8">
             {row.map((status, idx) => (
               <StatusDot key={`${rowIndex}-${idx}`} status={status} />
             ))}
