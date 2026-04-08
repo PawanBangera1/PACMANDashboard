@@ -1,88 +1,84 @@
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { Cloud } from 'lucide-react';
+import React from 'react';
+import { LineChart, Line, ResponsiveContainer, YAxis, XAxis, CartesianGrid } from 'recharts';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
-
-const chartOptions = (min: number, max: number) => ({
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: { legend: { display: false }, tooltip: { enabled: false } },
-  scales: {
-    x: { display: false },
-    y: {
-      min,
-      max,
-      grid: { display: true, drawTicks: false, color: '#f0f0f0' },
-      border: { display: false },
-      ticks: { display: false },
-    },
-  },
-  elements: {
-    point: { radius: 0 },
-    line: { tension: 0.3, borderWidth: 2 },
-  },
-});
-
-const seriesRows = [
-  {
-    label: 'CPU',
-    ticks: ['20%', '10%', '0%'],
-    limits: [0, 20],
-    datasets: [{ borderColor: '#ec148f', data: [10, 10, 8, 9, 11, 10, 8, 10, 11, 12, 10, 9, 11, 13] }],
-  },
-  {
-    label: 'I/O',
-    ticks: ['400 kb/s', '200 kb/s', '0 kb/s'],
-    limits: [0, 400],
-    datasets: [
-      { borderColor: '#86b93b', data: [160, 180, 140, 190, 150, 170, 140, 180, 150, 170, 130] },
-      { borderColor: '#8f5aff', data: [120, 140, 130, 150, 120, 140, 160, 140, 130, 150, 140] },
-    ],
-  },
-  {
-    label: 'DISK',
-    ticks: ['100 MB', '50 MB', '0 MB'],
-    limits: [0, 100],
-    datasets: [
-      { borderColor: '#e79214', data: [52, 50, 53, 55, 51, 54, 52, 50, 53, 55, 51, 54] },
-      { borderColor: '#1492bb', data: [24, 26, 25, 24, 27, 30, 24, 26, 25, 24, 27, 30] },
-    ],
-  },
+// Mock data to simulate the waves in your image
+const data = [
+  { cpu: 10, io1: 160, io2: 100, disk1: 52, disk2: 24 },
+  { cpu: 12, io1: 180, io2: 120, disk1: 50, disk2: 26 },
+  { cpu: 9,  io1: 140, io2: 130, disk1: 53, disk2: 25 },
+  { cpu: 11, io1: 190, io2: 150, disk1: 55, disk2: 24 },
+  { cpu: 15, io1: 150, io2: 120, disk1: 51, disk2: 27 },
+  { cpu: 10, io1: 170, io2: 140, disk1: 54, disk2: 30 },
+  { cpu: 13, io1: 140, io2: 160, disk1: 52, disk2: 24 },
+  { cpu: 11, io1: 180, io2: 140, disk1: 50, disk2: 26 },
+  { cpu: 14, io1: 150, io2: 110, disk1: 53, disk2: 25 },
 ];
 
-export default function UtilizationGraph() {
+const UtilizationGraph = () => {
   return (
-    <div className="w-full bg-white px-2 py-1 md:px-4 md:py-2">
-      <div className="space-y-1 md:space-y-2">
-        {seriesRows.map((row) => (
-          <div key={row.label} className="flex items-center gap-3">
-            <div className="flex w-14 flex-col justify-between text-right text-[9px] text-gray-400 md:w-16 md:text-[10px]">
-              <span>{row.ticks[0]}</span>
-              <span>{row.ticks[1]}</span>
-              <span className="border-b border-gray-300 pb-1">{row.ticks[2]}</span>
-            </div>
+    <div className="flex flex-col h-full px-6 pt-4 pb-4 bg-white">
+      
+      <div className="flex items-start gap-4 h-[40px]">
+        <div className="flex flex-col justify-between text-[10px] text-gray-400 h-[65px] mt-5 w-12 text-right">
+          <span>20%</span>
+          <span>10%</span>
+          <span>0%</span>
+        </div>
+        <div className="flex-1 relative">
+          <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1">CPU</p>
+          <ResponsiveContainer width="100%" height={70}>
+            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+              <CartesianGrid vertical={false} stroke="#f0f0f0" />
+              <YAxis hide domain={[0, 20]} />
+              <XAxis hide axisLine={{ stroke: '#ccc' }} />
+              <Line type="monotone" dataKey="cpu" stroke="#E91E63" strokeWidth={2} dot={false} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
 
-            <div className="relative h-full flex-1">
-              <Line
-                options={chartOptions(row.limits[0], row.limits[1]) as any}
-                data={{
-                  labels: new Array(row.datasets[0].data.length).fill(''),
-                  datasets: row.datasets,
-                }}
-              />
-            </div>
-          </div>
-        ))}
+      <div className="flex items-start gap-4 h-[50px] mt-6">
+        <div className="flex flex-col justify-between text-[10px] text-gray-400 h-[65px] mt-5 w-12 text-right">
+          <span>400 kb/s</span>
+          <span>200 kb/s</span>
+          <span>0 kb/s</span>
+        </div>
+        <div className="flex-1 relative">
+          <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1 text-xs">I/O</p>
+          <ResponsiveContainer width="100%" height={70}>
+            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+              <CartesianGrid vertical={false} stroke="#f0f0f0" />
+              <YAxis hide domain={[0, 400]} />
+              <XAxis hide axisLine={{ stroke: '#ccc' }} />
+              <Line type="monotone" dataKey="io1" stroke="#8BC34A" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="io2" stroke="#9C27B0" strokeWidth={2} dot={false} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+
+      <div className="flex items-start gap-4 h-[50px] mt-6">
+        <div className="flex flex-col justify-between text-[10px] text-gray-400 h-[65px] mt-5 w-12 text-right">
+          <span>100 MB</span>
+          <span>50 MB</span>
+          <span>0 MB</span>
+        </div>
+        <div className="flex-1 relative">
+          <p className="text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-widest absolute -left-1">DISK</p>
+          <ResponsiveContainer width="100%" height={70}>
+            <LineChart data={data} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+              <CartesianGrid vertical={false} stroke="#f0f0f0" />
+              <YAxis hide domain={[0, 100]} />
+              <XAxis hide axisLine={{ stroke: '#ccc' }} />
+              <Line type="monotone" dataKey="disk1" stroke="#FF9800" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="monotone" dataKey="disk2" stroke="#0288D1" strokeWidth={2} dot={false} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
     </div>
   );
-}
+};
+
+export default UtilizationGraph;
