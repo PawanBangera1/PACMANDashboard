@@ -48,13 +48,14 @@ export default function InventoryDetailPage() {
               <Share2 className="h-4 w-4" />
               <span>Share</span>
             </button>
+            
             <button
               type="button"
               aria-label="Close inventory detail"
               onClick={() => window.location.assign('/home/dashboard')}
-              className="text-slate-600 hover:text-slate-800"
+              className="text-slate-600 p-0.5 border rounded-full bg-gray-500 hover:text-slate-800"
             >
-              <X className="h-4 w-4 font-bold" />
+              <X className="h-4 w-4 font-bold text-white" />
             </button>
           </div>
         </div>

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export type CardId = 'cost' | 'inventory' | 'compliance' | 'monitoring' | 'utilization' | 'storage';
+export type CardId = string;
 
 export type SubGridItem = {
   val: string;
@@ -13,6 +13,7 @@ export type CardConfig = {
   icon: ReactNode;
   mainVal: string;
   subLabel: string;
+  detailPath?: string;
   subGrid?: SubGridItem[];
 };
 

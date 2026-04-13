@@ -29,7 +29,6 @@ export default function DataTable<T extends Record<string, any>>({
       items.sort((a, b) => {
         const aV = a[sortConfig.key];
         const bV = b[sortConfig.key];
-        // Date sorting logic
         if (sortConfig.key === 'date') {
           const toTime = (s: string) => {
             const [d, m, y] = s.split('/');
@@ -37,7 +36,6 @@ export default function DataTable<T extends Record<string, any>>({
           };
           return sortConfig.direction === 'asc' ? toTime(aV) - toTime(bV) : toTime(bV) - toTime(aV);
         }
-        // Number vs String logic
         return sortConfig.direction === 'asc' 
           ? (isNaN(aV) ? String(aV).localeCompare(String(bV)) : aV - bV)
           : (isNaN(bV) ? String(bV).localeCompare(String(aV)) : bV - aV);
@@ -48,18 +46,17 @@ export default function DataTable<T extends Record<string, any>>({
 
   return (
     <div className={`flex flex-col font-sans ${className ?? ''}`}>
-      {/* TOOLBAR */}
       {showToolbar && (
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6  md:flex items-center justify-between">
           <h3 className="text-[15px] font-medium text-gray-500">{title}</h3>
-          <div className="flex items-center gap-2">
+          <div className="md:flex items-center gap-2">
             <button className="flex h-8 w-8 items-center justify-center bg-[#f1f5f9] border border-slate-400 text-slate-400 hover:bg-slate-200 transition-colors">
               <Funnel size={16} />
             </button>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600" size={12} />
               <input
-                className="h-8 border border-slate-500 pl-9 pr-4 text-[12px] font-bold tracking-wider outline-none w-60 placeholder:text-slate-300 text-slate-600 shadow-sm"
+                className="h-8 border border-slate-500 pl-9 pr-4 text-[12px] font-bold tracking-wider outline-none w-50 placeholder:text-slate-300 text-slate-600 shadow-sm"
                 placeholder={searchPlaceholder}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -68,7 +65,6 @@ export default function DataTable<T extends Record<string, any>>({
         </div>
       )}
 
-      {/* TABLE */}
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0">
           <thead>

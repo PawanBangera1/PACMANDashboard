@@ -66,7 +66,7 @@ export default function StorageGraph({ detail = false }: StorageGraphProps) {
             style={{ flex: item.flexGrow }}
           >
             <div
-              className={`mb-2 text-center uppercase tracking-wider ${detail ? 'text-xs' : 'text-sm'}`}
+              className={`mb-2 text-center uppercase tracking-wider ${detail ? 'text-xs' : 'text-xs'}`}
               style={{ color: item.labelColor, paddingLeft: index === 0 ? '0' : '8px' }}
             >
               {item.label}
@@ -98,7 +98,7 @@ export default function StorageGraph({ detail = false }: StorageGraphProps) {
               )}
             </div>
 
-            <div className={`mt-6 text-center font-medium text-gray-500 ${detail ? 'text-xs' : 'text-sm'}`}>
+            <div className={`mt-6 text-center font-medium text-gray-500 ${detail ? 'text-xs' : 'text-xs'}`}>
               {item.value}
             </div>
           </div>

@@ -47,22 +47,23 @@ export default function CostDetailPage() {
             <h2 className="text-lg font-bold uppercase tracking-wide text-slate-600 md:text-2xl">AWS COST MANAGEMENT</h2>
             <p className="text-xs text-slate-500">All Apps</p>
           </div>
-          <div className="flex items-center gap-5 text-[#e10098] md:gap-8">
-            <button type="button" className="inline-flex items-center gap-2 font-bold uppercase text-xs">
+          <div className="flex items-center gap-3 text-[#e10098] md:gap-8">
+            <button type="button" className="inline-flex items-center gap-1 font-bold uppercase text-xs">
               <Download className="h-4 w-4" />
-              <span>Download</span>
+              <span className='hidden md:block'>Download</span>
             </button>
             <button type="button" className="inline-flex items-center gap-2 font-bold uppercase text-xs">
               <Share2 className="h-4 w-4" />
-              <span>Share</span>
+              <span className='hidden md:block'>Share</span>
             </button>
             <button
               type="button"
               aria-label="Close cost detail"
               onClick={() => window.location.assign('/home/dashboard')}
-              className="text-slate-600 hover:text-slate-800"
+              className="text-slate-600 p-0.5 border rounded-full bg-gray-500 hover:text-slate-800"
+
             >
-              <X className="h-4 font-bold w-4" />
+              <X className="h-4 font-bold text-white w-4" />
             </button>
           </div>
         </div>
