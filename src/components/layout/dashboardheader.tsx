@@ -126,7 +126,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
   };
 
   const DateDropdown = () => (
-    <div className="absolute top-full right-0 z-50 mt-1 w-72 bg-[#555555] text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
+    <div className="absolute top-full right-0 z-10 mt-1 w-72 bg-[#555555] text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
       <div className="p-6 space-y-6">
         <div className="flex gap-3 text-left cursor-pointer" onClick={() => setDateMode('period')}>
           <div className="mt-1 h-4 w-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0">
@@ -187,7 +187,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
   );
 
   const AppDropdown = () => (
-    <div className="absolute top-full left-0 z-50 mt-1 w-64 bg-[#555555] text-white shadow-2xl p-4 cursor-default" onClick={(e) => e.stopPropagation()}>
+    <div className="absolute top-full left-0 z-10 mt-1 w-64 bg-[#555555] text-white shadow-2xl p-4 cursor-default" onClick={(e) => e.stopPropagation()}>
       <div className="relative mb-4">
         <Search className="absolute left-2 top-2.5 h-3 w-3 text-slate-400" />
         <input 
@@ -239,7 +239,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
             aria-hidden="true"
           />
         )}
-        <div className="relative z-50 mx-auto mb-4 rounded-sm bg-white shadow-lg">
+        <div className="relative z-10 mx-auto mb-4 rounded-sm bg-white shadow-lg">
           <div className="flex items-center justify-between gap-3 px-3 py-2 md:px-6 md:py-3">
             <div className="flex items-center gap-3 cursor-pointer" onClick={toggleAppDropdown}>
               <Filter className="h-4 w-4 flex-shrink-0 text-pink-600" />
@@ -275,10 +275,10 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
           aria-hidden="true"
         />
       )}
-      <div className="relative z-50 mx-auto mb-4 bg-white shadow-lg rounded-sm">
+      <div className="relative z-10 mx-auto mb-4 bg-white shadow-lg rounded-sm">
         <div className="flex justify-between md:grid grid-cols-1 md:grid-cols-[1fr_1.2fr_auto] gap-0 items-stretch">
         
-        {/* Breadcrumb Application Selector */}
+        {/* Breadcrumb */}
         <div className="relative flex items-center gap-3 px-4 py-2 cursor-pointer" onClick={toggleAppDropdown}>
           <Filter className="h-4 w-4 text-pink-600 flex-shrink-0" />
           <div className="flex items-center gap-2">
@@ -300,7 +300,6 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
           {isAppOpen && <AppDropdown />}
         </div>
 
-        {/* Stats Section */}
         <div className="hidden md:flex items-center justify-center gap-6 px-5 py-2 text-xs border-l border-slate-100 ">
           <span className='text-slate-800 font-semibold text-[10px] md:text-[11px] uppercase'>Application Status :</span>
           <div className='flex gap-6'>
@@ -314,7 +313,6 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
         </div>
 
         <div className="flex items-stretch">
-
           <div className="flex items-center justify-center gap-3 px-5 py-1 md:py-3 bg-[#3c3c3c] border-l border-slate-300">
             <span className="text-[10px] md:text-[11px] font-semibold uppercase text-white tracking-wider">Security</span>
             <span className="h-3.5 w-3.5 rounded-full bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.7)]" />

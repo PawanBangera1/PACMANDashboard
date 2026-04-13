@@ -29,7 +29,6 @@ export default function DataTable<T extends Record<string, any>>({
       items.sort((a, b) => {
         const aV = a[sortConfig.key];
         const bV = b[sortConfig.key];
-        // Date sorting logic
         if (sortConfig.key === 'date') {
           const toTime = (s: string) => {
             const [d, m, y] = s.split('/');
@@ -37,7 +36,6 @@ export default function DataTable<T extends Record<string, any>>({
           };
           return sortConfig.direction === 'asc' ? toTime(aV) - toTime(bV) : toTime(bV) - toTime(aV);
         }
-        // Number vs String logic
         return sortConfig.direction === 'asc' 
           ? (isNaN(aV) ? String(aV).localeCompare(String(bV)) : aV - bV)
           : (isNaN(bV) ? String(bV).localeCompare(String(aV)) : bV - aV);
@@ -48,7 +46,6 @@ export default function DataTable<T extends Record<string, any>>({
 
   return (
     <div className={`flex flex-col font-sans ${className ?? ''}`}>
-      {/* TOOLBAR */}
       {showToolbar && (
         <div className="mb-6  md:flex items-center justify-between">
           <h3 className="text-[15px] font-medium text-gray-500">{title}</h3>
@@ -68,7 +65,6 @@ export default function DataTable<T extends Record<string, any>>({
         </div>
       )}
 
-      {/* TABLE */}
       <div className="overflow-x-auto">
         <table className="w-full border-separate border-spacing-0">
           <thead>
