@@ -90,7 +90,7 @@ const cards: CardConfig[] = [
       { val: '58', label: 'Rules' },
     ],
   },
-  { id: 'monitoring', title: 'Monitoring', icon: <Activity size={12} />, mainVal: '3.4M', subLabel: 'Requests' },
+  { id: 'monitoring', title: 'Monitoring', icon: <Activity size={12} />, mainVal: '3.4M', subLabel: 'Requests\nLast 5 hours 30 minutes' },
   { id: 'utilization', title: 'Utilization', icon: <PieChart size={12} />, mainVal: '39%', subLabel: 'Overall' },
   {
     id: 'storage',
@@ -213,16 +213,22 @@ export default function Dashboard() {
 
     if (id === 'monitoring') {
       return (
-        <div className="mt-8 w-full">
-          <div className="grid grid-cols-3 gap-3 text-center">
+        <div className=" w-full">
+        <div className="w-full">
+          <p className="text-center font-semibold text-gray-500">
+            <span className=" text-sm font-bold text-slate-600">3416</span>
+            <span className="text-xs ml-1">Unique Visitors</span>
+          </p>
+        </div>
+          <div className="mt-8 grid grid-cols-3 gap-3 text-center">
             {[
               { val: '30.5K', label: 'TMNG' },
               { val: '10.0K', label: 'SOCL' },
               { val: '17.4K', label: 'REBL' },
             ].map((item) => (
               <div className='' key={item.label}>
-                <div className="text-[13px] font-bold text-[#e91e85]">{item.val}</div>
-                <div className="text-[10px] font-semibold text-slate-500">{item.label}</div>
+                <div className="text-[13px] font-semibold text-[#e91e85]">{item.val}</div>
+                <div className="text-[10px]  text-slate-500">{item.label}</div>
               </div>
             ))}
           </div>
@@ -232,7 +238,7 @@ export default function Dashboard() {
 
     if (id === 'utilization') {
       return (
-        <div className="mt-8 w-full">
+        <div className="mt-10 w-full">
           <div className="grid grid-cols-3 gap-3 text-center">
             {[
               { label: 'CPU', arc: 'border-slate-300' },
@@ -251,7 +257,7 @@ export default function Dashboard() {
 
     if (id === 'storage') {
       return (
-        <div className="mt-8 w-full">
+        <div className="mt-10 w-full">
           <div className="grid grid-cols-3 gap-3 text-center">
             {[
               { val: '1.25PB', label: 'EBS' },

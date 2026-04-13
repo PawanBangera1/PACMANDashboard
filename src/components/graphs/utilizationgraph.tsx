@@ -37,7 +37,7 @@ const UtilizationGraph = ({ detail = false }: UtilizationGraphProps) => {
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 20]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
-              <Line type="monotone" dataKey="cpu" stroke="#E91E63" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="linear" dataKey="cpu" stroke="#E91E63" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -56,8 +56,8 @@ const UtilizationGraph = ({ detail = false }: UtilizationGraphProps) => {
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 400]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
-              <Line type="monotone" dataKey="io1" stroke="#8BC34A" strokeWidth={2} dot={false} isAnimationActive={false} />
-              <Line type="monotone" dataKey="io2" stroke="#9C27B0" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="linear" dataKey="io1" stroke="#8BC34A" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" dot={false} isAnimationActive={false} />
+              <Line type="linear" dataKey="io2" stroke="#9C27B0" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -76,8 +76,8 @@ const UtilizationGraph = ({ detail = false }: UtilizationGraphProps) => {
               <CartesianGrid vertical={false} stroke="#f0f0f0" />
               <YAxis hide domain={[0, 100]} />
               <XAxis hide axisLine={{ stroke: '#ccc' }} />
-              <Line type="monotone" dataKey="disk1" stroke="#FF9800" strokeWidth={2} dot={false} isAnimationActive={false} />
-              <Line type="monotone" dataKey="disk2" stroke="#0288D1" strokeWidth={2} dot={false} isAnimationActive={false} />
+              <Line type="linear" dataKey="disk1" stroke="#FF9800" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" dot={false} isAnimationActive={false} />
+              <Line type="linear" dataKey="disk2" stroke="#0288D1" strokeWidth={2} strokeLinecap="square" strokeLinejoin="miter" dot={false} isAnimationActive={false} />
             </LineChart>
           </ResponsiveContainer>
         </div>

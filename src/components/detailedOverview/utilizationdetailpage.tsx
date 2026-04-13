@@ -54,9 +54,10 @@ export default function UtilizationDetailPage() {
               type="button"
               aria-label="Close utilization detail"
               onClick={() => window.location.assign('/home/dashboard')}
-              className="text-slate-600 hover:text-slate-800"
+            className="text-slate-600 p-0.5 border rounded-full bg-gray-500 hover:text-slate-800"
+
             >
-              <X className="h-4 w-4 font-bold" />
+              <X className="h-4 w-4 text-white font-bold" />
             </button>
           </div>
         </div>

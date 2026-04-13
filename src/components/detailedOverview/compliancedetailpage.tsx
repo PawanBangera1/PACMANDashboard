@@ -51,9 +51,9 @@ export default function ComplianceDetailPage() {
               type="button"
               aria-label="Close compliance detail"
               onClick={() => window.location.assign('/home/dashboard')}
-              className="text-slate-600 hover:text-slate-800"
+              className="text-slate-600 rounded-full p-0.5 hover:text-slate-800"
             >
-              <X className="h-4 w-4 font-bold" />
+              <X className="h-2 w-2 text-white font-bold" />
             </button>
           </div>
         </div>

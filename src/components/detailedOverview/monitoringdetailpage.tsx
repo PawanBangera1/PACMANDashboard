@@ -59,8 +59,8 @@ function MonitoringPanelCard({
           <p className="mt-2 text-base text-slate-500 md:text-lg">{panel.subtitle}</p>
         </div>
 
-        <button type="button" onClick={onExpand} aria-label={expanded ? 'Back to dashboard' : 'Expand monitoring view'} className="text-slate-500 hover:text-slate-700">
-          <X className="h-5 w-5 md:h-6 md:w-6" />
+        <button type="button" onClick={onExpand} aria-label={expanded ? 'Back to dashboard' : 'Expand monitoring view'} className="text-slate-500 p-0.5 border rounded-full bg-gray-500 hover:text-slate-800">
+          <X className="h-5 w-5 md:h-6 md:w-6 text-white font-bold" />
         </button>
       </div>
 
