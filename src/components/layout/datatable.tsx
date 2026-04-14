@@ -73,13 +73,13 @@ export default function DataTable<T extends Record<string, any>>({
                 <th
                   key={col.key}
                   onClick={() => handleSort(col.key)}
-                  className="group cursor-pointer border-b border-gray-400 px-4 py-4 text-left text-[12px] font-semibold text-[#1e293b] hover:bg-slate-50 transition-colors"
+                  className="group cursor-pointer border-b border-gray-400 px-4 text-left text-[10px] font-semibold text-[#1e293b] hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
                     {col.label}
                     <div className="flex flex-col text-gray-800 opacity-100 group-hover:opacity-100 transition-opacity">
-                      <ChevronUp size={10} className={sortConfig?.key === col.key && sortConfig?.direction === 'asc' ? 'text-blue-600' : 'text-slate-400'} />
-                      <ChevronDown size={10} className={sortConfig?.key === col.key && sortConfig?.direction === 'desc' ? 'text-blue-600' : 'text-slate-400'} />
+                      <ChevronUp size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'asc' ? 'text-blue-600' : 'text-slate-400'} />
+                      <ChevronDown size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'desc' ? 'text-blue-600' : 'text-slate-400'} />
                     </div>
                   </div>
                 </th>
@@ -93,7 +93,7 @@ export default function DataTable<T extends Record<string, any>>({
                 className={`transition-colors hover:bg-blue-50/30 ${idx % 2 === 1 ? 'bg-gray-200' : 'bg-white'}`}
               >
                 {columns.map((col: any) => (
-                  <td key={col.key} className="px-4 py-1.5 text-[12px] text-[#475569] border-b border-transparent">
+                  <td key={col.key} className="px-4 py-1.5 text-[10px] text-[#5b6067] font-semibold border-b border-transparent">
                     {row[col.key]}
                   </td>
                 ))}

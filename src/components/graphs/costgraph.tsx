@@ -189,7 +189,7 @@ export default function CostGraph({ detail = false }: CostGraphProps) {
         <Chart type="bar" data={chartData as any} options={createOptions(detail)} />
       </div>
 
-      <div className={`mt-4 flex flex-nowrap items-center justify-center gap-x-6 gap-y-0 overflow-x-auto whitespace-nowrap uppercase font-medium text-gray-500 text-[9px]`}>
+      <div className={`mt-4 flex flex-nowrap items-center justify-around gap-x-6 gap-y-0 overflow-x-auto whitespace-nowrap uppercase font-medium text-gray-500 text-[9px]`}>
         <div className="flex shrink-0 items-center gap-4">
           <span className="h-3 w-3 bg-[#f1009e]" />
           <span className="text-left leading-tight">Actual<br />Cost</span>

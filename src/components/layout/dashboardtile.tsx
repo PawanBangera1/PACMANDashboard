@@ -70,18 +70,8 @@ export default function DashboardTile({
     return () => cancelAnimationFrame(frameId);
   }, [isActive, mainVal]);
 
-  const colStart = Number(gridClass.match(/md:col-start-(\d+)/)?.[1]);
-  const colEnd = Number(gridClass.match(/md:col-end-(\d+)/)?.[1]);
-  const rowStart = Number(gridClass.match(/md:row-start-(\d+)/)?.[1]);
-  const rowEnd = Number(gridClass.match(/md:row-end-(\d+)/)?.[1]);
-  const isThreeBySixCard =
-    Number.isFinite(colStart) &&
-    Number.isFinite(colEnd) &&
-    Number.isFinite(rowStart) &&
-    Number.isFinite(rowEnd) &&
-    colEnd - colStart === 6 &&
-    rowEnd - rowStart === 3;
-  const useRowLayout = !isActive && isThreeBySixCard;
+  const isCompactCard = gridClass.includes('h-[90px]');
+  const useRowLayout = !isActive && isCompactCard;
   const hideMainValueBlock = isActive && title === 'Compliance';
 
   return (

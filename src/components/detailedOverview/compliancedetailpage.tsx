@@ -35,7 +35,7 @@ export default function ComplianceDetailPage() {
       <div className="flex min-h-[calc(100vh-110px)] flex-col border bg-[#ffff] p-8">
         <div className="mb-2 flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold uppercase tracking-wide text-slate-600 md:text-2xl">COMPLIANCE</h2>
+            <h2 className="text-lg font-bold uppercase tracking-wide text-gray-500 md:text-2xl">COMPLIANCE</h2>
             <p className="text-xs text-slate-500">All Apps</p>
           </div>
           <div className="flex items-center gap-5 text-[#e10098] md:gap-8">

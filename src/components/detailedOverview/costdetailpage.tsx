@@ -44,15 +44,15 @@ export default function CostDetailPage() {
       <div className="flex min-h-[calc(100vh-110px)] flex-col border bg-[#ffff] p-8">
         <div className="mb-2 flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold uppercase tracking-wide text-slate-600 md:text-2xl">AWS COST MANAGEMENT</h2>
+            <h2 className="text-lg font-bold text-gray-500 md:text-2xl">AWS COST MANAGEMENT</h2>
             <p className="text-xs text-slate-500">All Apps</p>
           </div>
           <div className="flex items-center gap-3 text-[#e10098] md:gap-8">
-            <button type="button" className="inline-flex items-center gap-1 font-bold uppercase text-xs">
+            <button type="button" className="inline-flex items-center gap-1 font-bold uppercase text-[10px]">
               <Download className="h-4 w-4" />
               <span className='hidden md:block'>Download</span>
             </button>
-            <button type="button" className="inline-flex items-center gap-2 font-bold uppercase text-xs">
+            <button type="button" className="inline-flex items-center gap-2 font-bold uppercase text-[10px]">
               <Share2 className="h-4 w-4" />
               <span className='hidden md:block'>Share</span>
             </button>
