@@ -57,13 +57,13 @@ export default function ComplianceGraph() {
                   key={`fg-${segment.name}`}
                   data={[segment]}
                   dataKey="value"
-                  startAngle={90}
-                  endAngle={90 - (segment.value / 100) * 180}
+                  startAngle={90 - (segment.value / 100) * 180}
+                  endAngle={-90}
                   cx="0%"
                   cy="50%"
                   innerRadius={26 + index * 14}
                   outerRadius={36 + index * 14}
-                  cornerRadius={6}
+                  cornerRadius={1}
                   isAnimationActive={false}
                 >
                   <Cell fill={ringColors[index]} />

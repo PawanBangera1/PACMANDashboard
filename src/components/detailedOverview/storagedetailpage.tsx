@@ -36,15 +36,15 @@ export default function StorageDetailPage() {
       <div className="flex min-h-[calc(100vh-110px)] flex-col border bg-[#ffff] p-8">
         <div className="mb-2 flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold uppercase tracking-wide text-slate-600 md:text-2xl">STORAGE</h2>
+            <h2 className="text-lg font-bold uppercase tracking-wide text-gray-500 md:text-2xl">STORAGE</h2>
             <p className="text-xs text-slate-500">All Apps</p>
           </div>
           <div className="flex items-center gap-5 text-[#e10098] md:gap-8">
-            <button type="button" className="inline-flex items-center gap-2 text-xs font-bold uppercase">
+            <button type="button" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase">
               <Download className="h-4 w-4" />
               <span>Download</span>
             </button>
-            <button type="button" className="inline-flex items-center gap-2 text-xs font-bold uppercase">
+            <button type="button" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase">
               <Share2 className="h-4 w-4" />
               <span>Share</span>
             </button>

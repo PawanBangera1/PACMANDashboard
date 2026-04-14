@@ -74,7 +74,7 @@ const detailData: ChartData<'line', number[], string> = {
       data: inventoryDetailSeries.map((item) => item.max),
       borderColor: '#0ea5e9',
       pointRadius: 0,
-      borderWidth: 3,
+      borderWidth: 2,
       tension: 0.35,
     },
     {
@@ -83,7 +83,7 @@ const detailData: ChartData<'line', number[], string> = {
       borderColor: '#ec4899',
       borderDash: [3, 3],
       pointRadius: 0,
-      borderWidth: 3,
+      borderWidth: 2,
       tension: 0.35,
     },
     {
@@ -91,7 +91,7 @@ const detailData: ChartData<'line', number[], string> = {
       data: inventoryDetailSeries.map((item) => item.min),
       borderColor: '#2f7d70',
       pointRadius: 0,
-      borderWidth: 3,
+      borderWidth: 2,
       tension: 0.35,
     },
   ],
@@ -126,7 +126,7 @@ const createOptions = (detail: boolean): ChartOptions<'line'> => ({
         display: true,
         text: 'INSTANCES',
         color: '#6b7280',
-        font: { size: detail ? 12 : 10, weight: 'bold' },
+        font: { size: detail ? 9 : 9, weight: 'bold' },
       },
       grid: {
         color: '#e5e7eb',
@@ -148,16 +148,16 @@ export default function InventoryGraph({ detail = false }: InventoryGraphProps) 
         <Line data={chartData} options={createOptions(detail)} />
       </div>
 
-      <div className={`mt-4 flex items-center justify-center gap-x-6 gap-y-2 font-medium uppercase text-slate-500 ${detail ? 'text-[10px] md:text-[11px]' : 'text-[8px] md:text-[10px]'}`}>
-        <div className={`flex items-center gap-2 ${detail ? 'text-[10px]' : 'text-[8px]'}`}>
+      <div className={`mt-4 flex items-center justify-around gap-x-6 gap-y-2 font-medium uppercase text-slate-500 ${detail ? 'text-[10px] md:text-[11px]' : 'text-[8px] md:text-[10px]'}`}>
+        <div className={`flex items-center gap-2 ${detail ? 'text-[9px]' : 'text-[8px]'}`}>
           <span className="h-[2px] w-4 bg-[#0ea5e9]" />
           <span>Max <br />Instances</span>
         </div>
-        <div className={`flex items-center gap-2 ${detail ? 'text-[10px]' : 'text-[8px]'}`}>
+        <div className={`flex items-center gap-2 ${detail ? 'text-[9px]' : 'text-[8px]'}`}>
           <span className="h-[2px] w-4 border-t-2 border-dotted border-[#ec4899]" />
           <span>Mid <br />Instances</span>
         </div>
-        <div className={`flex items-center gap-2 ${detail ? 'text-[10px]' : 'text-[8px]'}`}>
+        <div className={`flex items-center gap-2 ${detail ? 'text-[9px]' : 'text-[8px]'}`}>
           <span className="h-[2px] w-4 bg-[#2f7d70]" />
           <span>Min <br />Instances</span>
         </div>

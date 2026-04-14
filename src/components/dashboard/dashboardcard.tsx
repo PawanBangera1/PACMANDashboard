@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useMemo, useState, type ReactNode } from 'react';
 import { Cloud, ShieldCheck, Activity, PieChart, Database } from 'lucide-react';
 import { LuCircleDollarSign } from 'react-icons/lu';
 import Dashboardheader from '../layout/dashboardheader';
@@ -8,7 +8,7 @@ import MonitoringGraph from '../graphs/monitoringgraph';
 import StorageGraph from '../graphs/storagegraph';
 import UtilizationGraph from '../graphs/utilizationgraph';
 import ComplianceGraph from '../graphs/compliancegraph';
-import DashboardTile from './dashboardtile';
+import DashboardTile from '../layout/dashboardtile';
 import type { CardConfig, CardId, SubGridItem } from '../../types/dashboard.types';
 
 type DashboardCardConfig = CardConfig & {
@@ -16,33 +16,10 @@ type DashboardCardConfig = CardConfig & {
   previewFooter?: (subGrid?: SubGridItem[]) => ReactNode;
 };
 
-const defaultActiveLayout = 'md:col-start-4 md:col-end-10 md:row-start-1 md:row-end-10';
 const COLUMN_COUNT = 3;
-
-const columnLayoutsByActiveColumn = [
-  [
-    'md:col-start-1 md:col-end-7',
-    'md:col-start-7 md:col-end-10',
-    'md:col-start-10 md:col-end-13',
-  ],
-  [
-    'md:col-start-1 md:col-end-4',
-    'md:col-start-4 md:col-end-10',
-    'md:col-start-10 md:col-end-13',
-  ],
-  [
-    'md:col-start-1 md:col-end-4',
-    'md:col-start-4 md:col-end-7',
-    'md:col-start-7 md:col-end-13',
-  ],
-] as const;
-
-const rowTop = 'md:row-start-1 md:row-end-7';
-const rowBottom = 'md:row-start-7 md:row-end-13';
-const rowActiveTop = 'md:row-start-1 md:row-end-10';
-const rowActiveBottom = 'md:row-start-4 md:row-end-13';
-const rowCompactTop = 'md:row-start-1 md:row-end-4';
-const rowCompactBottom = 'md:row-start-10 md:row-end-13';
+const CARD_HEIGHT_NORMAL = 'h-[255px]';
+const CARD_HEIGHT_ACTIVE = 'h-[420px]';
+const CARD_HEIGHT_COMPACT = 'h-[90px]';
 
 const cards: DashboardCardConfig[] = [
   {
@@ -238,61 +215,33 @@ const cards: DashboardCardConfig[] = [
       </div>
     ),
   },
+
 ];
 
 export default function Dashboard() {
   const [activeCard, setActiveCard] = useState<CardId>(cards[0]?.id || '');
 
-  const getGridPosition = (id: CardId) => {
+  const columns = useMemo(() => {
+    const grouped: DashboardCardConfig[][] = Array.from({ length: COLUMN_COUNT }, () => []);
+    cards.forEach((card, index) => {
+      grouped[index % COLUMN_COUNT].push(card);
+    });
+    return grouped;
+  }, []);
+
+  const activeColumn = useMemo(() => {
     const activeIndex = cards.findIndex((card) => card.id === activeCard);
-    const cardIndex = cards.findIndex((card) => card.id === id);
+    return activeIndex === -1 ? 0 : activeIndex % COLUMN_COUNT;
+  }, [activeCard]);
 
-    if (activeIndex === -1 || cardIndex === -1) {
-      return '';
+  const getTileHeightClass = (columnCards: DashboardCardConfig[], id: CardId) => {
+    const isActiveColumn = columnCards.some((card) => card.id === activeCard);
+
+    if (!isActiveColumn) {
+      return CARD_HEIGHT_NORMAL;
     }
 
-    const activeColumn = activeIndex % COLUMN_COUNT;
-    const cardColumn = cardIndex % COLUMN_COUNT;
-    const columnClass = columnLayoutsByActiveColumn[activeColumn]?.[cardColumn] || 'md:col-start-1 md:col-end-13';
-
-    const cardsInColumn = cards.filter((_, index) => index % COLUMN_COUNT === cardColumn);
-    const indexInColumn = cardsInColumn.findIndex((card) => card.id === id);
-    const activeInColumn = cardsInColumn.findIndex((card) => card.id === activeCard);
-
-    if (cardColumn !== activeColumn) {
-      if (indexInColumn === 0) {
-        return `${columnClass} ${rowTop}`;
-      }
-      if (indexInColumn === 1) {
-        return `${columnClass} ${rowBottom}`;
-      }
-    } else {
-      if (id === activeCard) {
-        const activeRow = activeInColumn === 0 ? rowActiveTop : rowActiveBottom;
-        return `${columnClass} ${activeRow}`;
-      }
-
-      if (indexInColumn === 0) {
-        return `${columnClass} ${rowCompactTop}`;
-      }
-      if (indexInColumn === 1) {
-        return `${columnClass} ${rowCompactBottom}`;
-      }
-    }
-
-    if (id === activeCard) {
-      return `${columnClass} ${defaultActiveLayout.split(' ').slice(2).join(' ')}`;
-    }
-
-    const sameColumnIds = cardsInColumn.map((card) => card.id);
-    const overflowIndex = sameColumnIds.indexOf(id) - 2;
-    if (overflowIndex < 0) {
-      return '';
-    }
-
-    const rowStart = 13 + overflowIndex * 3;
-    const rowEnd = rowStart + 3;
-    return `${columnClass} md:row-start-${rowStart} md:row-end-${rowEnd}`;
+    return id === activeCard ? CARD_HEIGHT_ACTIVE : CARD_HEIGHT_COMPACT;
   };
 
   const handleCardClick = (card: DashboardCardConfig) => {
@@ -307,24 +256,37 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader />
-      <div className="mx-auto grid h-auto max-w-[1600px] grid-cols-1 gap-3 md:h-[90vh] md:grid-cols-12 md:grid-rows-12">
-        {cards.map((card) => {
-          const isActive = activeCard === card.id;
+      <div className="mx-auto flex max-w-[1500px]  flex-col gap-2  md:flex-row">
+        {columns.map((columnCards, columnIndex) => {
+          const isActiveColumn = columnIndex === activeColumn;
 
           return (
-            <DashboardTile
-              key={card.id}
-              title={card.title}
-              icon={card.icon}
-              mainVal={card.mainVal}
-              subLabel={card.subLabel}
-              isActive={isActive}
-              gridClass={getGridPosition(card.id)}
-              onClick={() => handleCardClick(card)}
-              footerContent={isActive ? null : card.previewFooter?.(card.subGrid) ?? null}
+            <div
+              key={`column-${columnIndex}`}
+              className={`flex w-full flex-col gap-2 transition-all duration-300 ${
+                isActiveColumn ? 'md:w-1/2' : 'md:w-1/4'
+              }`}
             >
-              {isActive ? card.activeContent?.() ?? null : null}
-            </DashboardTile>
+              {columnCards.map((card) => {
+                const isActive = activeCard === card.id;
+
+                return (
+                  <DashboardTile
+                    key={card.id}
+                    title={card.title}
+                    icon={card.icon}
+                    mainVal={card.mainVal}
+                    subLabel={card.subLabel}
+                    isActive={isActive}
+                    gridClass={getTileHeightClass(columnCards, card.id)}
+                    onClick={() => handleCardClick(card)}
+                    footerContent={isActive ? null : card.previewFooter?.(card.subGrid) ?? null}
+                  >
+                    {isActive ? card.activeContent?.() ?? null : null}
+                  </DashboardTile>
+                );
+              })}
+            </div>
           );
         })}
       </div>

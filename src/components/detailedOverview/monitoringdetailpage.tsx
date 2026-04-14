@@ -53,7 +53,7 @@ function MonitoringPanelCard({
       <div className="mb-5 flex items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-xl font-bold uppercase leading-none text-slate-600 md:text-2xl">{panel.title}</h2>
+            <h2 className="text-xl font-bold uppercase leading-none text-gray-500 md:text-2xl">{panel.title}</h2>
             <span className="rounded-sm bg-lime-400 px-2 py-0.5 text-[8px] font-bold uppercase text-white md:text-[9px]">Live</span>
           </div>
           <p className="mt-2 text-base text-slate-500 md:text-lg">{panel.subtitle}</p>

@@ -42,11 +42,11 @@ export default function UtilizationDetailPage() {
             <p className="text-xs text-slate-500">All Apps</p>
           </div>
           <div className="flex items-center gap-5 text-[#e10098] md:gap-8">
-            <button type="button" className="inline-flex items-center gap-2 text-xs font-bold uppercase">
+            <button type="button" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase">
               <Download className="h-4 w-4" />
               <span>Download</span>
             </button>
-            <button type="button" className="inline-flex items-center gap-2 text-xs font-bold uppercase">
+            <button type="button" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase">
               <Share2 className="h-4 w-4" />
               <span>Share</span>
             </button>
