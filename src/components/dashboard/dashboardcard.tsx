@@ -17,8 +17,8 @@ type DashboardCardConfig = CardConfig & {
 };
 
 const COLUMN_COUNT = 3;
-const CARD_HEIGHT_NORMAL = 'h-[255px]';
-const CARD_HEIGHT_ACTIVE = 'h-[420px]';
+const CARD_HEIGHT_NORMAL = 'h-[250px]';
+const CARD_HEIGHT_ACTIVE = 'h-[410px]';
 const CARD_HEIGHT_COMPACT = 'h-[90px]';
 
 const cards: DashboardCardConfig[] = [
