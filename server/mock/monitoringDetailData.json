@@ -1,0 +1,24 @@
+{
+  "panels": [
+    {
+      "id": "tmng-10",
+      "title": "TMNG 1.0",
+      "subtitle": "All Apps",
+      "updatedAt": "Last Updated 10 minutes ago",
+      "requests": "3.4M",
+      "users": "3412",
+      "network": "12.0K IN / 21.0K OUT",
+      "latency": "53ms"
+    },
+    {
+      "id": "tmng-11",
+      "title": "TMNG 1.1", 
+      "subtitle": "All Apps",
+      "updatedAt": "Last Updated 10 minutes ago",
+      "requests": "3.4M",
+      "users": "3412",
+      "network": "13.0K IN / 24.0K OUT",
+      "latency": "45ms"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "data": [
+    { "month": "FEB", "actualCost": 880, "projectedCost": 600, "actualRunRate": 0.4, "projectedRunRate": 0.5 },
+    { "month": "MAR", "actualCost": 680, "projectedCost": 300, "actualRunRate": 0.25, "projectedRunRate": 0.45 },
+    { "month": "APR", "actualCost": 500, "projectedCost": 600, "actualRunRate": 0.3, "projectedRunRate": 0.43 },
+    { "month": "MAY", "actualCost": 880, "projectedCost": 720, "actualRunRate": null, "projectedRunRate": 0.46 },
+    { "month": "JUN", "actualCost": 680, "projectedCost": 500, "actualRunRate": null, "projectedRunRate": 0.42 },
+    { "month": "JUL", "actualCost": 500, "projectedCost": 600, "actualRunRate": null, "projectedRunRate": 0.43 },
+    { "month": "AUG", "actualCost": 550, "projectedCost": 740, "actualRunRate": null, "projectedRunRate": 0.44 },
+    { "month": "SEP", "actualCost": 290, "projectedCost": 910, "actualRunRate": null, "projectedRunRate": 0.4 },
+    { "month": "OCT", "actualCost": 0, "projectedCost": 910, "actualRunRate": null, "projectedRunRate": 0.34 },
+    { "month": "NOV", "actualCost": 0, "projectedCost": 910, "actualRunRate": null, "projectedRunRate": 0.4 }
+  ]
+}
