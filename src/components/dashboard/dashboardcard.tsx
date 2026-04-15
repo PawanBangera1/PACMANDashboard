@@ -1,6 +1,9 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { Cloud, ShieldCheck, Activity, PieChart, Database } from 'lucide-react';
 import { LuCircleDollarSign } from 'react-icons/lu';
+import { AiOutlineCloud, AiOutlineCloudServer } from 'react-icons/ai';
+import { FaCheckCircle } from 'react-icons/fa';
+import { GrStorage } from "react-icons/gr";
 import Dashboardheader from '../layout/dashboardheader';
 import CostGraph from '../graphs/costgraph';
 import InventoryGraph from '../graphs/inventorygraph';
@@ -44,7 +47,7 @@ const cards: DashboardCardConfig[] = [
   {
     id: 'inventory',
     title: 'Inventory',
-    icon: <Cloud size={12} />,
+    icon: <AiOutlineCloudServer size={24} />,
     mainVal: '6.5K',
     subLabel: 'current\ninstances',
     detailPath: '/dashbord/inventory',
@@ -81,7 +84,7 @@ const cards: DashboardCardConfig[] = [
   {
     id: 'compliance',
     title: 'Compliance',
-    icon: <ShieldCheck size={12} />,
+    icon: <FaCheckCircle size={18} />,
     mainVal: '99.82%',
     subLabel: 'compliance\nAll Apps',
     detailPath: '/dashbord/compliance',
@@ -155,7 +158,7 @@ const cards: DashboardCardConfig[] = [
   {
     id: 'utilization',
     title: 'Utilization',
-    icon: <PieChart size={12} />,
+    icon: <PieChart size={18} />,
     mainVal: '39%',
     subLabel: 'Overall',
     detailPath: '/dashbord/utilization',
@@ -184,7 +187,7 @@ const cards: DashboardCardConfig[] = [
   {
     id: 'storage',
     title: 'Storage',
-    icon: <Database size={12} />,
+    icon: <GrStorage size={18} />,
     mainVal: '4.15',
     subLabel: 'PB In Use',
     detailPath: '/dashbord/storage',

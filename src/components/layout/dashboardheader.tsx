@@ -300,6 +300,8 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
         </div>
 
         <div className="hidden md:flex items-center justify-center gap-6 px-5 py-2 text-xs border-l border-slate-100 ">
+          <div className="h-5 border-r border-slate-500" aria-hidden="true">
+          </div>
           <span className='text-slate-800 font-semibold text-[10px] md:text-[10px] uppercase'>Application Status :</span>
           <div className='flex gap-6'>
             {[ {n: 43, l: 'PRODUCTION'}, {n: 7, l: 'BUILD'}, {n: 5, l: 'INTAKE'} ].map(stat => (
