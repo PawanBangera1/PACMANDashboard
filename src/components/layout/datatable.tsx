@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
-import { Funnel, Search, ChevronUp, ChevronDown } from 'lucide-react';
+import { Funnel, Search } from 'lucide-react';
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 
 export default function DataTable<T extends Record<string, any>>({
   columns,
@@ -78,8 +79,8 @@ export default function DataTable<T extends Record<string, any>>({
                   <div className="flex items-center gap-2">
                     {col.label}
                     <div className="flex flex-col text-gray-800 opacity-100 group-hover:opacity-100 transition-opacity">
-                      <ChevronUp size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'asc' ? 'text-blue-600' : 'text-slate-400'} />
-                      <ChevronDown size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'desc' ? 'text-blue-600' : 'text-slate-400'} />
+                      <FaCaretUp size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'asc' ? 'text-blue-600' : 'text-slate-700'} />
+                      <FaCaretDown size={8} className={sortConfig?.key === col.key && sortConfig?.direction === 'desc' ? 'text-blue-600' : 'text-slate-700'} />
                     </div>
                   </div>
                 </th>

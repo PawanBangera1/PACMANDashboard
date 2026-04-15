@@ -198,7 +198,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
       {compact ? (
         <div className="max-h-[430px] overflow-y-auto pr-1 space-y-2">
           <div
-            className="flex items-center gap-2 text-[11px] font-bold uppercase cursor-pointer hover:text-pink-400"
+            className="flex items-center gap-2 text-[10px] font-bold uppercase cursor-pointer hover:text-pink-400"
             onClick={() => {
               setSelectedApp('');
               setIsAppOpen(false);
@@ -211,14 +211,14 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
         </div>
       ) : (
         <div className="space-y-2">
-          <div className="flex items-center gap-2 text-[11px] font-bold uppercase cursor-pointer hover:text-pink-400"
+          <div className="flex items-center gap-2 text-[10px] font-bold uppercase cursor-pointer hover:text-pink-400"
                onClick={() => { setSelectedApp(""); setIsAppOpen(false); }}>
             <MinusSquare className="h-3.5 w-3.5" />
             All applications
           </div>
           <div className="ml-4 border-l border-pink-600 pl-4 space-y-3">
             {apps.map(app => (
-              <div key={app} className="text-[11px] hover:text-pink-400 cursor-pointer text-left"
+              <div key={app} className="text-[10px] hover:text-pink-400 cursor-pointer text-left"
                    onClick={() => { setSelectedApp(app); setIsAppOpen(false); }}>
                 {app}
               </div>
@@ -243,7 +243,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
           <div className="flex items-center justify-between gap-3 px-3 py-2 md:px-6 md:py-3">
             <div className="flex items-center gap-3 cursor-pointer" onClick={toggleAppDropdown}>
               <Filter className="h-4 w-4 flex-shrink-0 text-pink-600" />
-              <h1 className="font-['Montserrat'] text-[10px] font-bold uppercase text-slate-900 md:text-[11px]">
+              <h1 className="font-['Montserrat'] text-[10px] font-bold uppercase text-slate-900 md:text-[10px]">
                 <span onClick={handleBackToAll} className="hover:text-pink-600 transition-colors">All Applications</span>
                 {selectedApp && ` > ${selectedApp}`}
               </h1>
@@ -253,7 +253,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
               <button
                 type="button"
                 onClick={toggleDateDropdown}
-                className="inline-flex min-w-[150px] items-center justify-between border border-slate-300 px-3 py-1 text-[10px] font-semibold text-slate-800 md:min-w-[200px] md:text-[11px]"
+                className="inline-flex min-w-[150px] items-center justify-between border border-slate-300 px-3 py-1 text-[10px] font-semibold text-slate-800 md:min-w-[200px] md:text-[10px]"
               >
                 <span>{dateMode === 'period' ? timePeriod : 'Custom Range'}</span>
                 <ChevronDown className={`h-4 w-4 text-pink-600 transition-transform ${isDateOpen ? 'rotate-180' : ''}`} />
@@ -278,20 +278,19 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
       <div className="relative z-10 mx-auto mb-4 bg-white shadow-lg rounded-sm">
         <div className="flex justify-between md:grid grid-cols-1 md:grid-cols-[1fr_1.2fr_auto] gap-0 items-stretch">
         
-        {/* Breadcrumb */}
         <div className="relative flex items-center gap-3 px-4 py-2 cursor-pointer" onClick={toggleAppDropdown}>
           <Filter className="h-4 w-4 text-pink-600 flex-shrink-0" />
           <div className="flex items-center gap-2">
             <h1 
               onClick={handleBackToAll}
-              className="text-[10px] md:text-[11px] font-bold uppercase font-['Montserrat'] text-pink-600 whitespace-nowrap"
+              className="text-[10px] md:text-[10px] font-bold uppercase font-['Montserrat'] text-pink-600 whitespace-nowrap"
             >
               All Applications
             </h1>
             {selectedApp && (
               <>
                 <ChevronRight className="h-4 w-4 text-slate-900 stroke-[3px]" />
-                <span className="text-[10px] md:text-[11px] font-bold uppercase text-slate-900 whitespace-nowrap">
+                <span className="text-[10px] md:text-[10px] font-bold uppercase text-slate-900 whitespace-nowrap">
                   {selectedApp}
                 </span>
               </>
@@ -301,20 +300,20 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
         </div>
 
         <div className="hidden md:flex items-center justify-center gap-6 px-5 py-2 text-xs border-l border-slate-100 ">
-          <span className='text-slate-800 font-semibold text-[10px] md:text-[11px] uppercase'>Application Status :</span>
+          <span className='text-slate-800 font-semibold text-[10px] md:text-[10px] uppercase'>Application Status :</span>
           <div className='flex gap-6'>
             {[ {n: 43, l: 'PRODUCTION'}, {n: 7, l: 'BUILD'}, {n: 5, l: 'INTAKE'} ].map(stat => (
               <div key={stat.l} className='flex items-center gap-2'>
                 <span className="text-pink-600 font-bold text-xs">{stat.n}</span>
-                <span className='text-slate-500 font-semibold text-[10px] md:text-[11px]'>{stat.l}</span>
+                <span className='text-slate-500 font-semibold text-[10px] md:text-[10px]'>{stat.l}</span>
               </div>
             ))}
           </div>
         </div>
 
         <div className="flex items-stretch">
-          <div className="flex items-center justify-center gap-3 px-5 py-1 md:py-3 bg-[#3c3c3c] border-l border-slate-300">
-            <span className="text-[10px] md:text-[11px] font-semibold uppercase text-white tracking-wider">Security</span>
+          <div className="flex items-center justify-center gap-3 px-5 py-1 md:py-2.5 bg-[#3c3c3c] border-l border-slate-300">
+            <span className="text-[10px] md:text-[10px] font-semibold uppercase text-white tracking-wider">Security</span>
             <span className="h-3.5 w-3.5 rounded-full bg-lime-400 shadow-[0_0_8px_rgba(163,230,53,0.7)]" />
           </div>
         </div>
