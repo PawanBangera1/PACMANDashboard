@@ -126,7 +126,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
   };
 
   const DateDropdown = () => (
-    <div className="absolute top-full right-0 z-10 mt-1 w-72 bg-[#555555] text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
+    <div className="absolute top-full right-0 z-50 mt-1 w-72 bg-[#555555] text-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
       <div className="p-6 space-y-6">
         <div className="flex gap-3 text-left cursor-pointer" onClick={() => setDateMode('period')}>
           <div className="mt-1 h-4 w-4 rounded-full border-2 border-white flex items-center justify-center flex-shrink-0">
@@ -275,7 +275,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
           aria-hidden="true"
         />
       )}
-      <div className="relative z-10 mx-auto mb-4 bg-white shadow-lg rounded-sm">
+      <div className="relative z-50 mx-auto mb-4 bg-white shadow-lg rounded-sm">
         <div className="flex justify-between md:grid grid-cols-1 md:grid-cols-[1fr_1.2fr_auto] gap-0 items-stretch">
         
         <div className="relative flex items-center gap-3 px-4 py-2 cursor-pointer" onClick={toggleAppDropdown}>

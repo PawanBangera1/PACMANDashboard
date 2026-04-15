@@ -218,6 +218,108 @@ const cards: DashboardCardConfig[] = [
       </div>
     ),
   },
+    {
+    id: 'storage4',
+    title: 'Storage',
+    icon: <GrStorage size={18} />,
+    mainVal: '4.15',
+    subLabel: 'PB In Use',
+    detailPath: '/dashbord/storage',
+    subGrid: [
+      { val: '1.25', label: 'EBS' },
+      { val: '1.50', label: 'S3' },
+      { val: '0.65', label: 'Other' },
+    ],
+    activeContent: () => (
+      <div className="mb-2 w-full overflow-hidden text-left">
+        <StorageGraph />
+      </div>
+    ),
+    previewFooter: () => (
+      <div className="mt-10 w-full">
+        <div className="grid grid-cols-3 gap-3 text-center">
+          {[
+            { val: '1.25PB', label: 'EBS' },
+            { val: '1.50PB', label: 'S3' },
+            { val: '0.65PB', label: 'Other' },
+          ].map((item) => (
+            <div key={item.label}>
+              <div className="text-[13px] font-bold text-[#e91e85]">{item.val}</div>
+              <div className="text-[10px] font-semibold text-slate-500">{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+    {
+    id: 'storage5',
+    title: 'Storage',
+    icon: <GrStorage size={18} />,
+    mainVal: '4.15',
+    subLabel: 'PB In Use',
+    detailPath: '/dashbord/storage',
+    subGrid: [
+      { val: '1.25', label: 'EBS' },
+      { val: '1.50', label: 'S3' },
+      { val: '0.65', label: 'Other' },
+    ],
+    activeContent: () => (
+      <div className="mb-2 w-full overflow-hidden text-left">
+        <StorageGraph />
+      </div>
+    ),
+    previewFooter: () => (
+      <div className="mt-10 w-full">
+        <div className="grid grid-cols-3 gap-3 text-center">
+          {[
+            { val: '1.25PB', label: 'EBS' },
+            { val: '1.50PB', label: 'S3' },
+            { val: '0.65PB', label: 'Other' },
+          ].map((item) => (
+            <div key={item.label}>
+              <div className="text-[13px] font-bold text-[#e91e85]">{item.val}</div>
+              <div className="text-[10px] font-semibold text-slate-500">{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
+    {
+    id: 'storage6',
+    title: 'Storage',
+    icon: <GrStorage size={18} />,
+    mainVal: '4.15',
+    subLabel: 'PB In Use',
+    detailPath: '/dashbord/storage',
+    subGrid: [
+      { val: '1.25', label: 'EBS' },
+      { val: '1.50', label: 'S3' },
+      { val: '0.65', label: 'Other' },
+    ],
+    activeContent: () => (
+      <div className="mb-2 w-full overflow-hidden text-left">
+        <StorageGraph />
+      </div>
+    ),
+    previewFooter: () => (
+      <div className="mt-10 w-full">
+        <div className="grid grid-cols-3 gap-3 text-center">
+          {[
+            { val: '1.25PB', label: 'EBS' },
+            { val: '1.50PB', label: 'S3' },
+            { val: '0.65PB', label: 'Other' },
+          ].map((item) => (
+            <div key={item.label}>
+              <div className="text-[13px] font-bold text-[#e91e85]">{item.val}</div>
+              <div className="text-[10px] font-semibold text-slate-500">{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    ),
+  },
 
 ];
 
