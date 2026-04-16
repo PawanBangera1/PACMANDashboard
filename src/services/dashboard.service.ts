@@ -17,3 +17,13 @@ export const fetchDashboardOverview = async () => {
 
   return response.json();
 };
+
+export const fetchInventoryDetail = async () => {
+  const response = await fetch('/api/dashboard/inventory');
+
+  if (!response.ok) {
+    throw new Error('Failed to load inventory detail data');
+  }
+
+  return response.json();
+};

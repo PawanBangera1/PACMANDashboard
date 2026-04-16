@@ -13,88 +13,11 @@ import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend);
 
-export const inventoryDetailSeries = [
-  { date: 'AUG 02', max: 360, mid: 300, min: 240 },
-  { date: 'AUG 03', max: 470, mid: 360, min: 230 },
-  { date: 'AUG 04', max: 940, mid: 730, min: 245 },
-  { date: 'AUG 05', max: 520, mid: 430, min: 225 },
-  { date: 'AUG 06', max: 470, mid: 410, min: 265 },
-  { date: 'AUG 07', max: 660, mid: 450, min: 250 },
-  { date: 'AUG 08', max: 510, mid: 360, min: 230 },
-  { date: 'AUG 09', max: 480, mid: 350, min: 245 },
-  { date: 'AUG 10', max: 1020, mid: 730, min: 225 },
-  { date: 'AUG 11', max: 930, mid: 540, min: 270 },
-  { date: 'AUG 12', max: 880, mid: 410, min: 260 },
-  { date: 'AUG 13', max: 940, mid: 560, min: 350 },
-  { date: 'AUG 14', max: 940, mid: 680, min: 580 },
-  { date: 'AUG 15', max: 1010, mid: 940, min: 830 },
-] as const;
-
-const compactSeries = inventoryDetailSeries.slice(0, 5);
-
-const labels = compactSeries.map((item) => item.date);
-const detailLabels = inventoryDetailSeries.map((item) => item.date);
-
-const data: ChartData<'line', number[], string> = {
-  labels,
-  datasets: [
-    {
-      label: 'Max Instances',
-      data: compactSeries.map((item) => item.max),
-      borderColor: '#0ea5e9',
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-    {
-      label: 'Mid Instances',
-      data: compactSeries.map((item) => item.mid),
-      borderColor: '#ec4899',
-      borderDash: [3, 3],
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-    {
-      label: 'Min Instances',
-      data: compactSeries.map((item) => item.min),
-      borderColor: '#2f7d70',
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-  ],
-};
-
-const detailData: ChartData<'line', number[], string> = {
-  labels: detailLabels,
-  datasets: [
-    {
-      label: 'Max Instances',
-      data: inventoryDetailSeries.map((item) => item.max),
-      borderColor: '#0ea5e9',
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-    {
-      label: 'Mid Instances',
-      data: inventoryDetailSeries.map((item) => item.mid),
-      borderColor: '#ec4899',
-      borderDash: [3, 3],
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-    {
-      label: 'Min Instances',
-      data: inventoryDetailSeries.map((item) => item.min),
-      borderColor: '#2f7d70',
-      pointRadius: 0,
-      borderWidth: 2,
-      tension: 0.35,
-    },
-  ],
+export type InventoryDetailApiRow = {
+  date: string;
+  max: number;
+  mid: number;
+  min: number;
 };
 
 const createOptions = (detail: boolean): ChartOptions<'line'> => ({
@@ -137,10 +60,49 @@ const createOptions = (detail: boolean): ChartOptions<'line'> => ({
 
 type InventoryGraphProps = {
   detail?: boolean;
+  rows?: InventoryDetailApiRow[];
 };
 
-export default function InventoryGraph({ detail = false }: InventoryGraphProps) {
-  const chartData = detail ? detailData : data;
+const buildInventoryChartData = (
+  rows: InventoryDetailApiRow[],
+  detail: boolean
+): ChartData<'line', number[], string> => {
+  const series = detail ? rows : rows.slice(0, 5);
+
+  return {
+    labels: series.map((item) => item.date),
+    datasets: [
+      {
+        label: 'Max Instances',
+        data: series.map((item) => item.max),
+        borderColor: '#0ea5e9',
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.35,
+      },
+      {
+        label: 'Mid Instances',
+        data: series.map((item) => item.mid),
+        borderColor: '#ec4899',
+        borderDash: [3, 3],
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.35,
+      },
+      {
+        label: 'Min Instances',
+        data: series.map((item) => item.min),
+        borderColor: '#2f7d70',
+        pointRadius: 0,
+        borderWidth: 2,
+        tension: 0.35,
+      },
+    ],
+  };
+};
+
+export default function InventoryGraph({ detail = false, rows = [] }: InventoryGraphProps) {
+  const chartData = buildInventoryChartData(rows, detail);
 
   return (
     <div className={`w-full bg-white px-4 py-2 md:px-6 md:py-4 ${detail ? 'md:px-10 md:py-6' : ''}`}>

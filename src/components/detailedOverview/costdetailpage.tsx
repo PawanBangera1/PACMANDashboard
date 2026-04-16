@@ -80,7 +80,7 @@ export default function CostDetailPage() {
         </div>
 
         <div className="mb-6 p-3 md:p-6">
-          <CostGraph detail />
+          <CostGraph detail rows={costSeries} />
         </div>
 
         <div className="mb-4 border-t border-slate-300" />
