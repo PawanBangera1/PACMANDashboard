@@ -11,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(corsMiddleware);
 
+app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/v1/dashboard', dashboardRoutes);
 
 app.get('/health', (req, res) => {
