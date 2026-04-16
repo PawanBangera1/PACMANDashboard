@@ -3,21 +3,25 @@ import { Filter, ChevronDown, ChevronRight, Search, Calendar, MinusSquare } from
 
 type DashboardHeaderProps = {
   compact?: boolean;
+  apps?: string[];
+  statuses?: Array<{ count: number; label: string }>;
 };
 
-const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
+const Dashboardheader = ({ compact = false, apps: appsProp, statuses: statusesProp }: DashboardHeaderProps) => {
   const [isAppOpen, setIsAppOpen] = useState(false);
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [selectedApp, setSelectedApp] = useState("");
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set());
   const isAnyDropdownOpen = isAppOpen || isDateOpen;
   
-  // State for Date Selection Logic
   const [dateMode, setDateMode] = useState<'period' | 'range'>('period');
   const [timePeriod, setTimePeriod] = useState('Last 6 Months');
   const [dateRange, setDateRange] = useState({ from: '', to: '' });
 
-  const apps = Array.from({ length: 9 }, (_, i) => `App ${i + 1}`);
+  const apps = appsProp ?? [];
+  const statuses = statusesProp ?? [];
+  const hasApps = apps.length > 0;
+  const hasStatuses = statuses.length > 0;
 
   type TreeNode = {
     label: string;
@@ -187,6 +191,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
   );
 
   const AppDropdown = () => (
+    !hasApps ? null :
     <div className="absolute top-full left-0 z-10 mt-1 w-64 bg-[#555555] text-white shadow-2xl p-4 cursor-default" onClick={(e) => e.stopPropagation()}>
       <div className="relative mb-4">
         <Search className="absolute left-2 top-2.5 h-3 w-3 text-slate-400" />
@@ -241,13 +246,13 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
         )}
         <div className="relative z-10 mx-auto mb-4 rounded-sm bg-white shadow-lg">
           <div className="flex items-center justify-between gap-3 px-3 py-2 md:px-6 md:py-3">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={toggleAppDropdown}>
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => { if (hasApps) toggleAppDropdown(); }}>
               <Filter className="h-4 w-4 flex-shrink-0 text-pink-600" />
               <h1 className="font-['Montserrat'] text-[10px] font-bold uppercase text-slate-900 md:text-[10px]">
                 <span onClick={handleBackToAll} className="hover:text-pink-600 transition-colors">All Applications</span>
                 {selectedApp && ` > ${selectedApp}`}
               </h1>
-              {isAppOpen && <AppDropdown />}
+              {hasApps && isAppOpen && <AppDropdown />}
             </div>
             <div className="relative">
               <button
@@ -278,7 +283,7 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
       <div className="relative z-50 mx-auto mb-4 bg-white shadow-lg rounded-sm">
         <div className="flex justify-between md:grid grid-cols-1 md:grid-cols-[1fr_1.2fr_auto] gap-0 items-stretch">
         
-        <div className="relative flex items-center gap-3 px-4 py-2 cursor-pointer" onClick={toggleAppDropdown}>
+        <div className="relative flex items-center gap-3 px-4 py-2 cursor-pointer" onClick={() => { if (hasApps) toggleAppDropdown(); }}>
           <Filter className="h-4 w-4 text-pink-600 flex-shrink-0" />
           <div className="flex items-center gap-2">
             <h1 
@@ -296,22 +301,22 @@ const Dashboardheader = ({ compact = false }: DashboardHeaderProps) => {
               </>
             )}
           </div>
-          {isAppOpen && <AppDropdown />}
+          {hasApps && isAppOpen && <AppDropdown />}
         </div>
 
-        <div className="hidden md:flex items-center justify-center gap-6 px-5 py-2 text-xs border-l border-slate-100 ">
+        {hasStatuses && <div className="hidden md:flex items-center justify-center gap-6 px-5 py-2 text-xs border-l border-slate-100 ">
           <div className="h-5 border-r border-slate-500" aria-hidden="true">
           </div>
           <span className='text-slate-800 font-semibold text-[10px] md:text-[10px] uppercase'>Application Status :</span>
           <div className='flex gap-6'>
-            {[ {n: 43, l: 'PRODUCTION'}, {n: 7, l: 'BUILD'}, {n: 5, l: 'INTAKE'} ].map(stat => (
-              <div key={stat.l} className='flex items-center gap-2'>
-                <span className="text-pink-600 font-bold text-xs">{stat.n}</span>
-                <span className='text-slate-500 font-semibold text-[10px] md:text-[10px]'>{stat.l}</span>
+            {statuses.map((stat) => (
+              <div key={stat.label} className='flex items-center gap-2'>
+                <span className="text-pink-600 font-bold text-xs">{stat.count}</span>
+                <span className='text-slate-500 font-semibold text-[10px] md:text-[10px]'>{stat.label}</span>
               </div>
             ))}
           </div>
-        </div>
+        </div>}
 
         <div className="flex items-stretch">
           <div className="flex items-center justify-center gap-3 px-5 py-1 md:py-2.5 bg-[#3c3c3c] border-l border-slate-300">
