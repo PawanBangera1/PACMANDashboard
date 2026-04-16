@@ -13,7 +13,9 @@ import StorageGraph from '../graphs/storagegraph';
 import UtilizationGraph from '../graphs/utilizationgraph';
 import ComplianceGraph from '../graphs/compliancegraph';
 import DashboardTile from '../layout/dashboardtile';
-import { fetchDashboardOverview } from '../../services/dashboard.service';
+import { fetchCostDetail, fetchDashboardOverview, fetchInventoryDetail } from '../../services/dashboard.service';
+import type { CostDetailApiRow } from '../graphs/costgraph';
+import type { InventoryDetailApiRow } from '../graphs/inventorygraph';
 import type { CardConfig, CardId, SubGridItem } from '../../types/dashboard.types';
 
 type DashboardCardConfig = CardConfig & {
@@ -129,10 +131,22 @@ export default function Dashboard() {
     queryFn: fetchDashboardOverview,
   });
 
+  const { data: inventoryData } = useQuery({
+    queryKey: ['inventory-detail'],
+    queryFn: fetchInventoryDetail,
+  });
+
+  const { data: costData } = useQuery({
+    queryKey: ['cost-detail'],
+    queryFn: fetchCostDetail,
+  });
+
   const overview = data?.data as any;
   const apps = overview?.applications?.list ?? [];
   const statuses = overview?.applications?.statuses ?? [];
   const summary = overview?.summary;
+  const costRows = (costData?.data?.data ?? []) as CostDetailApiRow[];
+  const inventoryRows = (inventoryData?.data?.data ?? []) as InventoryDetailApiRow[];
 
   const cardsWithOverview = useMemo(() => {
     return cards.map((card) => {
@@ -324,7 +338,13 @@ export default function Dashboard() {
                     onClick={() => handleCardClick(card)}
                     footerContent={isActive ? null : card.previewFooter?.(card.subGrid) ?? null}
                   >
-                    {isActive ? card.activeContent?.() ?? null : null}
+                    {isActive
+                      ? card.id === 'inventory'
+                        ? <InventoryGraph rows={inventoryRows} />
+                        : card.id === 'cost'
+                          ? <CostGraph rows={costRows} />
+                        : card.activeContent?.() ?? null
+                      : null}
                   </DashboardTile>
                 );
               })}

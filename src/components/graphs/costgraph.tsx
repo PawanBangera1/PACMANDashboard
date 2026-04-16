@@ -13,8 +13,6 @@ import {
   type ChartOptions,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
-import { useQuery } from '@tanstack/react-query';
-import { fetchCostDetail } from '../../services/dashboard.service';
 
 ChartJS.register(
   BarController,
@@ -96,6 +94,7 @@ const createOptions = (detail: boolean): ChartOptions<'bar'> => ({
 
 type CostGraphProps = {
   detail?: boolean;
+  rows?: CostDetailApiRow[];
 };
 
 const buildCompactChartData = (rows: CostDetailApiRow[]): ChartData<'bar' | 'line', number[], string> => {
@@ -186,15 +185,8 @@ const buildDetailChartData = (rows: CostDetailApiRow[]): ChartData<'bar' | 'line
   ],
 });
 
-export default function CostGraph({ detail = false }: CostGraphProps) {
-  const { data } = useQuery({
-    queryKey: ['cost-detail'],
-    queryFn: fetchCostDetail,
-  });
-
-  const apiRows = (data?.data?.data ?? []) as CostDetailApiRow[];
-
-  const chartData = detail ? buildDetailChartData(apiRows) : buildCompactChartData(apiRows);
+export default function CostGraph({ detail = false, rows = [] }: CostGraphProps) {
+  const chartData = detail ? buildDetailChartData(rows) : buildCompactChartData(rows);
 
   return (
     <div className={`w-full bg-white px-4 py-4 md:px-8 ${detail ? 'md:px-12 md:py-6' : ''}`}>

@@ -1,8 +1,10 @@
 import { Download, Share2, X } from 'lucide-react';
-import InventoryGraph, { inventoryDetailSeries } from '../graphs/inventorygraph';
+import { useQuery } from '@tanstack/react-query';
+import InventoryGraph, { type InventoryDetailApiRow } from '../graphs/inventorygraph';
 import Dashboardheader from '../layout/dashboardheader';
 import DataTable from '../layout/datatable';
 import type { InventoryDetailRow } from '../../types/dashboard.types';
+import { fetchInventoryDetail } from '../../services/dashboard.service';
 
 const inventoryDetailColumns = [
   { key: 'label1', label: 'Date' },
@@ -14,7 +16,7 @@ const inventoryDetailColumns = [
   { key: 'label7', label: 'Level' },
 ];
 
-const inventoryDetailRows: InventoryDetailRow[] = inventoryDetailSeries.map((point) => {
+const buildInventoryRows = (rows: InventoryDetailApiRow[]): InventoryDetailRow[] => rows.map((point) => {
   const spread = point.max - point.min;
   const midPct = (point.mid / point.max) * 100;
 
@@ -30,6 +32,30 @@ const inventoryDetailRows: InventoryDetailRow[] = inventoryDetailSeries.map((poi
 });
 
 export default function InventoryDetailPage() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['inventory-detail'],
+    queryFn: fetchInventoryDetail,
+  });
+
+  const inventorySeries = (data?.data?.data ?? []) as InventoryDetailApiRow[];
+  const inventoryDetailRows = buildInventoryRows(inventorySeries);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading inventory detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader compact />
@@ -61,7 +87,7 @@ export default function InventoryDetailPage() {
         </div>
 
         <div className="mb-6 p-3 md:p-6">
-          <InventoryGraph detail />
+          <InventoryGraph detail rows={inventorySeries} />
         </div>
 
         <div className="mb-4 px-3 border-t border-slate-300" />
