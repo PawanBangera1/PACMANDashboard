@@ -1,15 +1,6 @@
 {
-  "graphSeries": [
-    { "control": "SC-1", "compliance": 99 },
-    { "control": "SC-2", "compliance": 98 },
-    { "control": "SC-3", "compliance": 97 },
-    { "control": "SC-4", "compliance": 99 },
-    { "control": "SC-5", "compliance": 96 },
-    { "control": "SC-6", "compliance": 98 },
-    { "control": "SC-7", "compliance": 99 },
-    { "control": "SC-8", "compliance": 98 }
-  ],
-  "tableRows": [
+
+  "data": [
     { "control": "SC-1", "compliance": "99%", "nonCompliance": "1%", "severity": "Low", "owner": "Security Team", "lastAudit": "01/08/16", "status": "Compliant" },
     { "control": "SC-2", "compliance": "98%", "nonCompliance": "2%", "severity": "Low", "owner": "Ops Team", "lastAudit": "02/08/16", "status": "Compliant" },
     { "control": "SC-3", "compliance": "97%", "nonCompliance": "3%", "severity": "Low", "owner": "Security Team", "lastAudit": "03/08/16", "status": "Compliant" },

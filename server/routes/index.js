@@ -11,7 +11,6 @@ const {
 } = require('../controllers/dashboardController');
 
 router.get('/', handleGetDashboardOverview);
-
 router.get('/cost', handleGetCostDetail);
 router.get('/inventory', handleGetInventoryDetail);
 router.get('/compliance', handleGetComplianceDetail);
