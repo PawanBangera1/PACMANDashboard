@@ -1,0 +1,8 @@
+{
+  "data": [
+    { "label": "EBS", "value": "1.25 PB", "percent": 30, "trend": "+2.4%", "health": "Balanced", "region": "US-EAST" },
+    { "label": "S3", "value": "1.50 PB", "percent": 36, "trend": "+2.4%", "health": "Balanced", "region": "EU-WEST" },
+    { "label": "Other", "value": "0.65 PB", "percent": 16, "trend": "+1.1%", "health": "Watch", "region": "US-EAST" },
+    { "label": "Archive", "value": "0.75 PB", "percent": 18, "trend": "-0.6%", "health": "Low", "region": "EU-WEST" }
+  ]
+}
