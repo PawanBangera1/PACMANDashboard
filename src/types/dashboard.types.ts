@@ -23,8 +23,6 @@ export type CostDetailRow = {
   date: string;
   label4: string;
   label5: string;
-  label6: string;
-  label7: string;
 };
 
 export type InventoryDetailRow = {

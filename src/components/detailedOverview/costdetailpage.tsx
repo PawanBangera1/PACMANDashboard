@@ -1,14 +1,10 @@
 import { Download, Share2, X } from 'lucide-react';
-import CostGraph, {
-  costDetailActualCost,
-  costDetailActualRunRate,
-  costDetailLabels,
-  costDetailProjectedCost,
-  costDetailProjectedRunRate,
-} from '../graphs/costgraph';
+import { useQuery } from '@tanstack/react-query';
+import CostGraph, { type CostDetailApiRow } from '../graphs/costgraph';
 import Dashboardheader from '../layout/dashboardheader';
 import DataTable from '../layout/datatable';
 import type { CostDetailRow } from '../../types/dashboard.types';
+import { fetchCostDetail } from '../../services/dashboard.service';
 
 const costDetailColumns = [
   { key: 'label1', label: 'Month' },
@@ -16,28 +12,43 @@ const costDetailColumns = [
   { key: 'date', label: 'Projected Cost' },
   { key: 'label4', label: 'Actual Run Rate' },
   { key: 'label5', label: 'Projected Run Rate' },
-  { key: 'label6', label: 'Variance' },
-  { key: 'label7', label: 'Status' },
 ];
 
-const costDetailRows: CostDetailRow[] = costDetailLabels.map((month, index) => {
-  const actualCost = costDetailActualCost[index] ?? 0;
-  const projectedCost = costDetailProjectedCost[index] ?? 0;
-  const actualRunRate = costDetailActualRunRate[index];
-  const projectedRunRate = costDetailProjectedRunRate[index] ?? 0;
-  const variance = actualCost - projectedCost;
-
+const buildCostRows = (rows: CostDetailApiRow[]): CostDetailRow[] => rows.map((row) => {
   return {
-    label1: month,
-    number: `$${actualCost}k`,
-    date: `$${projectedCost}k`,
-    label4: actualRunRate === null ? '-' : actualRunRate.toFixed(2),
-    label5: projectedRunRate.toFixed(2),
-    label6: `${variance >= 0 ? '+' : ''}$${variance}k`,
-    label7: variance >= 0 ? 'Over' : 'Under',
+    label1: row.month,
+    number: `$${row.actualCost}k`,
+    date: `$${row.projectedCost}k`,
+    label4: row.actualRunRate === null ? '-' : row.actualRunRate.toFixed(2),
+    label5: row.projectedRunRate.toFixed(2),
   };
 });
+
 export default function CostDetailPage() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['cost-detail'],
+    queryFn: fetchCostDetail,
+  });
+
+  const costSeries = (data?.data?.data ?? []) as CostDetailApiRow[];
+  const costDetailRows = buildCostRows(costSeries);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading cost detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader compact />

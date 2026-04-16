@@ -13,6 +13,8 @@ import {
   type ChartOptions,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
+import { useQuery } from '@tanstack/react-query';
+import { fetchCostDetail } from '../../services/dashboard.service';
 
 ChartJS.register(
   BarController,
@@ -26,95 +28,12 @@ ChartJS.register(
   Legend
 );
 
-const compactLabels = ['JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV'];
-export const costDetailLabels = ['FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV'];
-export const costDetailActualCost = [880, 680, 500, 880, 680, 500, 550, 290, 0, 0];
-export const costDetailProjectedCost = [600, 300, 600, 720, 500, 600, 740, 910, 910, 910];
-export const costDetailActualRunRate: Array<number | null> = [0.4, 0.25, 0.3, null, null, null, null, null, null, null];
-export const costDetailProjectedRunRate = [0.5, 0.45, 0.43, 0.46, 0.42, 0.43, 0.44, 0.4, 0.34, 0.4];
-
-const compactData: ChartData<'bar' | 'line', number[], string> = {
-  labels: compactLabels,
-  datasets: [
-    {
-      label: 'Actual Cost',
-      data: [680, 500, 600, 300, 0, 0],
-      backgroundColor: '#f1009e',
-      barPercentage: 1.0,
-      categoryPercentage: 0.4,
-      yAxisID: 'cost',
-      order: 2,
-    },
-    {
-      label: 'Projected Cost',
-      data: [500, 590, 740, 610, 520, 650],
-      backgroundColor: '#cfcfcf',
-      barPercentage: 1.0,
-      categoryPercentage: 0.4,
-      yAxisID: 'cost',
-      order: 2,
-    },
-    {
-      label: 'Run Rate',
-      data: [0.5, 0.43, 0.45, 0.41, 0.34, 0.4],
-      type: 'line' as const,
-      yAxisID: 'runRate',
-      borderColor: '#cfcfcf',
-      borderWidth: 1.5,
-      borderDash: [3, 3],
-      pointRadius: 0,
-      tension: 0.4,
-      order: 1,
-    },
-  ],
-};
-
-const detailData: ChartData<'bar' | 'line', (number | null)[], string> = {
-  labels: costDetailLabels,
-  datasets: [
-    {
-      label: 'Actual Cost',
-      data: costDetailActualCost,
-      backgroundColor: '#f1009e',
-      barThickness: 12,
-      maxBarThickness: 12,
-      yAxisID: 'cost',
-      order: 2,
-    },
-    {
-      label: 'Projected Cost',
-      data: costDetailProjectedCost,
-      backgroundColor: '#cfcfcf',
-      barThickness: 12,
-      maxBarThickness: 12,
-      yAxisID: 'cost',
-      order: 2,
-    },
-    {
-      label: 'Actual Run Rate',
-      data: costDetailActualRunRate,
-      type: 'line' as const,
-      yAxisID: 'runRate',
-      borderColor: '#f1009e',
-      borderWidth: 2.0,
-      pointRadius: 0,
-      tension: 0.35,
-      spanGaps: false,
-      order: 1,
-    },
-    {
-      label: 'Projected Run Rate',
-      data: costDetailProjectedRunRate,
-      type: 'line' as const,
-      yAxisID: 'runRate',
-      borderColor: '#cfcfcf',
-      borderWidth: 1.5,
-      borderDash: [3, 3],
-      pointRadius: 0,
-      tension: 0.4,
-      order: 1,
-    },
-  ],
+export type CostDetailApiRow = {
+  month: string;
+  actualCost: number;
+  projectedCost: number;
+  actualRunRate: number | null;
+  projectedRunRate: number;
 };
 
 const createOptions = (detail: boolean): ChartOptions<'bar'> => ({
@@ -179,8 +98,103 @@ type CostGraphProps = {
   detail?: boolean;
 };
 
+const buildCompactChartData = (rows: CostDetailApiRow[]): ChartData<'bar' | 'line', number[], string> => {
+  const compactRows = rows.slice(-6);
+
+  return {
+    labels: compactRows.map((row) => row.month),
+    datasets: [
+      {
+        label: 'Actual Cost',
+        data: compactRows.map((row) => row.actualCost),
+        backgroundColor: '#f1009e',
+        barPercentage: 1.0,
+        categoryPercentage: 0.4,
+        yAxisID: 'cost',
+        order: 2,
+      },
+      {
+        label: 'Projected Cost',
+        data: compactRows.map((row) => row.projectedCost),
+        backgroundColor: '#cfcfcf',
+        barPercentage: 1.0,
+        categoryPercentage: 0.4,
+        yAxisID: 'cost',
+        order: 2,
+      },
+      {
+        label: 'Run Rate',
+        data: compactRows.map((row) => row.projectedRunRate),
+        type: 'line' as const,
+        yAxisID: 'runRate',
+        borderColor: '#cfcfcf',
+        borderWidth: 1.5,
+        borderDash: [3, 3],
+        pointRadius: 0,
+        tension: 0.4,
+        order: 1,
+      },
+    ],
+  };
+};
+
+const buildDetailChartData = (rows: CostDetailApiRow[]): ChartData<'bar' | 'line', (number | null)[], string> => ({
+  labels: rows.map((row) => row.month),
+  datasets: [
+    {
+      label: 'Actual Cost',
+      data: rows.map((row) => row.actualCost),
+      backgroundColor: '#f1009e',
+      barThickness: 12,
+      maxBarThickness: 12,
+      yAxisID: 'cost',
+      order: 2,
+    },
+    {
+      label: 'Projected Cost',
+      data: rows.map((row) => row.projectedCost),
+      backgroundColor: '#cfcfcf',
+      barThickness: 12,
+      maxBarThickness: 12,
+      yAxisID: 'cost',
+      order: 2,
+    },
+    {
+      label: 'Actual Run Rate',
+      data: rows.map((row) => row.actualRunRate),
+      type: 'line' as const,
+      yAxisID: 'runRate',
+      borderColor: '#f1009e',
+      borderWidth: 2.0,
+      pointRadius: 0,
+      tension: 0.35,
+      spanGaps: false,
+      order: 1,
+    },
+    {
+      label: 'Projected Run Rate',
+      data: rows.map((row) => row.projectedRunRate),
+      type: 'line' as const,
+      yAxisID: 'runRate',
+      borderColor: '#cfcfcf',
+      borderWidth: 1.5,
+      borderDash: [3, 3],
+      pointRadius: 0,
+      tension: 0.4,
+      order: 1,
+    },
+  ],
+});
+
 export default function CostGraph({ detail = false }: CostGraphProps) {
-  const chartData = detail ? detailData : compactData;
+  const { data } = useQuery({
+    queryKey: ['cost-detail'],
+    queryFn: fetchCostDetail,
+  });
+
+  const apiRows = (data?.data?.data ?? []) as CostDetailApiRow[];
+
+  const chartData = detail ? buildDetailChartData(apiRows) : buildCompactChartData(apiRows);
 
   return (
     <div className={`w-full bg-white px-4 py-4 md:px-8 ${detail ? 'md:px-12 md:py-6' : ''}`}>
