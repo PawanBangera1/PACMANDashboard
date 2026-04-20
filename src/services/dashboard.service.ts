@@ -28,6 +28,16 @@ export const fetchInventoryDetail = async () => {
   return response.json();
 };
 
+export const fetchMonitoringDetail = async () => {
+  const response = await fetch('/api/v1/dashboard/monitoring');
+
+  if (!response.ok) {
+    throw new Error('Failed to load monitoring detail data');
+  }
+
+  return response.json();
+};
+
 export const fetchComplianceDetail = async () => {
   const response = await fetch('/api/v1/dashboard/compliance');
 

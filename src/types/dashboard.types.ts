@@ -91,3 +91,14 @@ export type StorageDetailApiRow = {
   health: string;
   region: string;
 };
+
+export type MonitoringDetailApiPanel = {
+  id: string;
+  title: string;
+  subtitle: string;
+  updatedAt: string;
+  requests: string;
+  users: string;
+  network: string;
+  latency: string;
+};

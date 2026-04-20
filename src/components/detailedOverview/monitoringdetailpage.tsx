@@ -1,9 +1,9 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import Dashboardheader from '../layout/dashboardheader';
 import MonitoringGraph from '../graphs/monitoringgraph';
-
-type DotStatus = 'green' | 'yellow' | 'red';
+import { fetchMonitoringDetail } from '../../services/dashboard.service';
 
 type MonitoringPanel = {
   id: string;
@@ -15,29 +15,6 @@ type MonitoringPanel = {
   network: string;
   latency: string;
 };
-
-const monitoringPanels: MonitoringPanel[] = [
-  {
-    id: 'tmng-10',
-    title: 'TMNG 1.0',
-    subtitle: 'All Apps',
-    updatedAt: 'Last Updated 10 minutes ago',
-    requests: '3.4M',
-    users: '3412',
-    network: '12.0K IN / 21.0K OUT',
-    latency: '53ms',
-  },
-  {
-    id: 'tmng-11',
-    title: 'TMNG 1.1',
-    subtitle: 'All Apps',
-    updatedAt: 'Last Updated 10 minutes ago',
-    requests: '3.4M',
-    users: '3412',
-    network: '13.0K IN / 24.0K OUT',
-    latency: '45ms',
-  },
-];
 
 function MonitoringPanelCard({
   panel,
@@ -95,10 +72,30 @@ function MonitoringPanelCard({
 export default function MonitoringDetailPage() {
   const [expandedPanelId, setExpandedPanelId] = useState<string | null>(null);
 
-  const visiblePanels = useMemo(
-    () => (expandedPanelId ? monitoringPanels.filter((panel) => panel.id === expandedPanelId) : monitoringPanels),
-    [expandedPanelId]
-  );
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['monitoring-detail'],
+    queryFn: fetchMonitoringDetail,
+  });
+
+  const monitoringPanels = (data?.data?.panels ?? []) as MonitoringPanel[];
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading monitoring detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
+  const visiblePanels = expandedPanelId ? monitoringPanels.filter((panel) => panel.id === expandedPanelId) : monitoringPanels;
 
   return (
     <div className="min-h-screen px-16 py-4">
