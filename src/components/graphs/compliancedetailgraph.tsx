@@ -1,24 +1,29 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
-export const complianceDetailSeries = [
-  { control: 'SECURITY', compliance: 28 },
-  { control: 'TAGGING', compliance: 50 },
-  { control: 'CERTIFICATES', compliance: 65 },
-  { control: 'PATCHING', compliance: 75 },
-  { control: 'SOX', compliance: 60 },
-  { control: 'CLOUD OP', compliance: 25 },
-] as const;
+import type { ComplianceDetailApiRow } from '../../types/dashboard.types';
 
-const chartRows = complianceDetailSeries.map((row) => ({
-  ...row,
-  nonCompliance: 100 - row.compliance,
-}));
+type ComplianceDetailGraphProps = {
+  rows?: ComplianceDetailApiRow[];
+};
 
-export default function ComplianceDetailGraph() {
+export default function ComplianceDetailGraph({ rows }: ComplianceDetailGraphProps) {
+  const chartData = rows?.length
+    ? rows.map((row) => {
+        const compliance = Number.parseFloat(row.compliance.replace('%', ''));
+        const nonCompliance = Number.parseFloat(row.nonCompliance.replace('%', ''));
+
+        return {
+          control: row.control,
+          compliance,
+          nonCompliance: Number.isFinite(nonCompliance) ? nonCompliance : 100 - compliance,
+        };
+      })
+    : [];
+
   return (
     <div className="h-[360px] w-full bg-white px-2 md:px-4">
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartRows} barCategoryGap="22%" margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
+        <BarChart data={chartData} barCategoryGap="22%" margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
           <CartesianGrid stroke="#d1d5db" strokeDasharray="0" vertical={false} />
           <XAxis
             dataKey="control"

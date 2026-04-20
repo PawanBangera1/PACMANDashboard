@@ -1,17 +1,31 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
 
-const complianceSegments = [
-  { name: 'SECURITY', value: 28 },
-  { name: 'TAGGING', value: 50 },
-  { name: 'CERTIFICATES', value: 65 },
-  { name: 'PATCHING', value: 75 },
-  { name: 'SOX', value: 60 },
-  { name: 'CLOUD OP', value: 25 },
-] as const;
+import type { ComplianceDetailApiRow } from '../../types/dashboard.types';
 
 const ringColors = ['#ff0a78', '#ff0a78', '#ff0a78', '#d6005f', '#b0004c', '#8a003c'];
 
-export default function ComplianceGraph() {
+type ComplianceGraphProps = {
+  rows?: ComplianceDetailApiRow[];
+};
+
+export default function ComplianceGraph({ rows }: ComplianceGraphProps) {
+  const segments = rows?.length
+    ? rows.slice(0, 6).map((row) => ({
+        name: row.control,
+        value: Number.parseFloat(row.compliance.replace('%', '')),
+      }))
+    : [];
+
+  const averageCompliance = segments.length
+    ? segments.reduce((sum, segment) => sum + segment.value, 0) / segments.length
+    : 0;
+
+  const issueCount = rows?.length
+    ? rows.filter((row) => Number.parseFloat(row.nonCompliance.replace('%', '')) > 0).length
+    : 25;
+
+  const scannedCount = rows?.length ? rows.length : 200000;
+
   return (
     <div className="flex h-full w-full flex-col justify-between px-4 pb-4 pt-2">
       <div className="flex items-end justify-center">
@@ -23,7 +37,7 @@ export default function ComplianceGraph() {
           </h2>
 
           <div className="h-full space-y-1 text-[8px] text-slate-700">
-            {complianceSegments.map((segment) => (
+            {segments.map((segment) => (
               <div key={segment.name} className="flex justify-end items-end gap-1">
                 <span className="tracking-wide">{segment.name}</span>
                 <span>{segment.value}%</span>
@@ -35,7 +49,7 @@ export default function ComplianceGraph() {
         <div className="relative h-[220px] w-[150px] overflow-hidden">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
-              {complianceSegments.map((_, index) => (
+              {segments.map((_, index) => (
                 <Pie
                   key={`bg-${index}`}
                   data={[{ value: 100 }]}
@@ -52,7 +66,7 @@ export default function ComplianceGraph() {
                 </Pie>
               ))}
 
-              {complianceSegments.map((segment, index) => (
+              {segments.map((segment, index) => (
                 <Pie
                   key={`fg-${segment.name}`}
                   data={[segment]}
@@ -76,18 +90,18 @@ export default function ComplianceGraph() {
 
       <div className="mt-6 grid grid-cols-3 text-center">
         <div>
-          <h3 className="text-sm font-bold text-[#e10098]">200,000</h3>
+          <h3 className="text-sm font-bold text-[#e10098]">{scannedCount.toLocaleString()}</h3>
           <p className="text-xs text-slate-500">Scanned</p>
         </div>
 
         <div>
-          <h3 className="text-sm font-bold text-[#e10098]">25</h3>
+          <h3 className="text-sm font-bold text-[#e10098]">{issueCount}</h3>
           <p className="text-xs text-slate-500">Issues Found</p>
         </div>
 
         <div>
           <h3 className="text-sm font-bold text-[#e10098]">
-            0.001<span className="text-sm">%</span>
+            {averageCompliance.toFixed(2)}<span className="text-sm">%</span>
           </h3>
           <p className="text-xs text-slate-500">Items with issues</p>
         </div>

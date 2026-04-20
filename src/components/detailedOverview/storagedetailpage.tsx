@@ -1,8 +1,10 @@
 import { Download, Share2, X } from 'lucide-react';
-import StorageGraph, { storageDetailSeries } from '../graphs/storagegraph';
+import { useQuery } from '@tanstack/react-query';
+import StorageGraph from '../graphs/storagegraph';
 import Dashboardheader from '../layout/dashboardheader';
 import DataTable from '../layout/datatable';
-import type { StorageDetailRow } from '../../types/dashboard.types';
+import type { StorageDetailApiRow, StorageDetailRow } from '../../types/dashboard.types';
+import { fetchStorageDetail } from '../../services/dashboard.service';
 
 const storageDetailColumns = [
   { key: 'label1', label: 'Type' },
@@ -14,22 +16,41 @@ const storageDetailColumns = [
   { key: 'label7', label: 'Status' },
 ];
 
-const storageDetailRows: StorageDetailRow[] = storageDetailSeries.map((item, index) => {
-  const trend = item.percent > 25 ? '+2.4%' : item.percent > 17 ? '+1.1%' : '-0.6%';
-  const health = item.percent > 30 ? 'Balanced' : item.percent > 18 ? 'Watch' : 'Low';
-
-  return {
-    label1: item.label,
-    number: item.value,
-    date: `${item.percent.toFixed(2)}%`,
-    label4: trend,
-    label5: health,
-    label6: index % 2 === 0 ? 'US-EAST' : 'EU-WEST',
-    label7: item.percent > 15 ? 'Active' : 'Review',
-  };
-});
+const buildStorageRows = (rows: StorageDetailApiRow[]): StorageDetailRow[] => rows.map((item) => ({
+  label1: item.label,
+  number: item.value,
+  date: `${item.percent.toFixed(2)}%`,
+  label4: item.trend,
+  label5: item.health,
+  label6: item.region,
+  label7: item.percent > 15 ? 'Active' : 'Review',
+}));
 
 export default function StorageDetailPage() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['storage-detail'],
+    queryFn: fetchStorageDetail,
+  });
+
+  const storageSeries = (data?.data?.data ?? []) as StorageDetailApiRow[];
+  const storageDetailRows = buildStorageRows(storageSeries);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading storage detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader compact />
@@ -61,7 +82,7 @@ export default function StorageDetailPage() {
         </div>
 
         <div className="mb-6 p-3 md:p-6">
-          <StorageGraph detail />
+          <StorageGraph detail rows={storageSeries} />
         </div>
 
         <div className="mb-4 border-t border-slate-300" />

@@ -27,3 +27,33 @@ export const fetchInventoryDetail = async () => {
 
   return response.json();
 };
+
+export const fetchComplianceDetail = async () => {
+  const response = await fetch('/api/v1/dashboard/compliance');
+
+  if (!response.ok) {
+    throw new Error('Failed to load compliance detail data');
+  }
+
+  return response.json();
+};
+
+export const fetchUtilizationDetail = async () => {
+  const response = await fetch('/api/v1/dashboard/utilization');
+
+  if (!response.ok) {
+    throw new Error('Failed to load utilization detail data');
+  }
+
+  return response.json();
+};
+
+export const fetchStorageDetail = async () => {
+  const response = await fetch('/api/v1/dashboard/storage');
+
+  if (!response.ok) {
+    throw new Error('Failed to load storage detail data');
+  }
+
+  return response.json();
+};

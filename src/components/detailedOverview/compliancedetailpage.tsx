@@ -1,8 +1,10 @@
 import { Download, Share2, X } from 'lucide-react';
-import ComplianceDetailGraph, { complianceDetailSeries } from '../graphs/compliancedetailgraph';
+import { useQuery } from '@tanstack/react-query';
+import ComplianceDetailGraph from '../graphs/compliancedetailgraph';
 import Dashboardheader from '../layout/dashboardheader';
 import DataTable from '../layout/datatable';
-import type { ComplianceDetailRow } from '../../types/dashboard.types';
+import type { ComplianceDetailApiRow, ComplianceDetailRow } from '../../types/dashboard.types';
+import { fetchComplianceDetail } from '../../services/dashboard.service';
 
 const complianceDetailColumns = [
   { key: 'label1', label: 'Control' },
@@ -14,21 +16,42 @@ const complianceDetailColumns = [
   { key: 'label7', label: 'Status' },
 ];
 
-const complianceDetailRows: ComplianceDetailRow[] = complianceDetailSeries.map((row, index) => {
-  const nonCompliance = 100 - row.compliance;
+const buildComplianceRows = (rows: ComplianceDetailApiRow[]): ComplianceDetailRow[] => rows.map((row) => ({
+  label1: row.control,
+  number: row.compliance,
+  date: row.nonCompliance,
+  label4: row.severity,
+  label5: row.owner,
+  label6: row.lastAudit,
+  label7: row.status,
+}));
 
-  return {
-    label1: row.control,
-    number: `${row.compliance}%`,
-    date: `${nonCompliance}%`,
-    label4: row.compliance >= 70 ? 'Low' : row.compliance >= 50 ? 'Medium' : 'High',
-    label5: index % 2 === 0 ? 'Security Team' : 'Ops Team',
-    label6: `0${index + 1}/08/16`,
-    label7: row.compliance >= 60 ? 'Compliant' : 'At Risk',
-  };
-});
 
 export default function ComplianceDetailPage() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['compliance-detail'],
+    queryFn: fetchComplianceDetail,
+  });
+
+  const complianceSeries = (data?.data?.data ?? []) as ComplianceDetailApiRow[];
+  const complianceDetailRows = buildComplianceRows(complianceSeries);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading compliance detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader compact />
@@ -59,7 +82,7 @@ export default function ComplianceDetailPage() {
         </div>
 
         <div className="mb-6 p-2 md:p-3">
-          <ComplianceDetailGraph />
+          <ComplianceDetailGraph rows={complianceSeries} />
         </div>
 
         <div className="mb-4 border-t border-slate-300" />
