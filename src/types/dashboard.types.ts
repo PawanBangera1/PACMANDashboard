@@ -64,3 +64,30 @@ export type UtilizationDetailRow = {
   label6: string;
   label7: string;
 };
+
+export type ComplianceDetailApiRow = {
+  control: string;
+  compliance: string;
+  nonCompliance: string;
+  severity: string;
+  owner: string;
+  lastAudit: string;
+  status: string;
+};
+
+export type UtilizationDetailApiRow = {
+  cpu: number;
+  io1: number;
+  io2: number;
+  disk1: number;
+  disk2: number;
+};
+
+export type StorageDetailApiRow = {
+  label: string;
+  value: string;
+  percent: number;
+  trend: string;
+  health: string;
+  region: string;
+};

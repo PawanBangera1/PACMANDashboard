@@ -1,5 +1,7 @@
 import React from 'react';
 
+import type { StorageDetailApiRow } from '../../types/dashboard.types';
+
 type StorageItem = {
   label: string;
   value: string;
@@ -10,51 +12,34 @@ type StorageItem = {
   flexGrow: number;
 };
 
-export const storageDetailSeries: StorageItem[] = [
-  {
-    label: 'EBS',
-    value: '1.25PB',
-    percent: 30.12,
-    panelBg: '#FDECEF',
-    labelColor: '#ea5c80',
-    stripColor: '#ea5c80',
-    flexGrow: 1.25,
-  },
-  {
-    label: 'S3',
-    value: '1.5PB',
-    percent: 36.14,
-    panelBg: '#E9F4F7',
-    labelColor: '#72b4c5',
-    stripColor: '#72b4c5',
-    flexGrow: 1.5,
-  },
-  {
-    label: 'GLACIER',
-    value: '0.75PB',
-    percent: 18.07,
-    panelBg: '#F9F3D9',
-    labelColor: '#d3aa00',
-    stripColor: '#d3aa00',
-    flexGrow: 0.75,
-  },
-  {
-    label: 'OTHER',
-    value: '0.65PB',
-    percent: 15.66,
-    panelBg: '#EDF0DB',
-    labelColor: '#90a00d',
-    stripColor: '#90a00d',
-    flexGrow: 0.65,
-  },
+const livePalette = [
+  { panelBg: '#FDECEF', labelColor: '#ea5c80', stripColor: '#ea5c80' },
+  { panelBg: '#E9F4F7', labelColor: '#72b4c5', stripColor: '#72b4c5' },
+  { panelBg: '#F9F3D9', labelColor: '#d3aa00', stripColor: '#d3aa00' },
+  { panelBg: '#EDF0DB', labelColor: '#90a00d', stripColor: '#90a00d' },
 ];
 
 type StorageGraphProps = {
   detail?: boolean;
+  rows?: StorageDetailApiRow[];
 };
 
-export default function StorageGraph({ detail = false }: StorageGraphProps) {
-  const items = storageDetailSeries;
+export default function StorageGraph({ detail = false, rows }: StorageGraphProps) {
+  const items = rows?.length
+    ? rows.map((row, index) => {
+        const palette = livePalette[index % livePalette.length];
+
+        return {
+          label: row.label,
+          value: row.value,
+          percent: row.percent,
+          panelBg: palette.panelBg,
+          labelColor: palette.labelColor,
+          stripColor: palette.stripColor,
+          flexGrow: Math.max(row.percent / 20, 0.5),
+        } satisfies StorageItem;
+      })
+    : [];
 
   return (
     <div className={`w-full bg-white ${detail ? 'px-10' : 'px-8'}`}>

@@ -13,10 +13,10 @@ import StorageGraph from '../graphs/storagegraph';
 import UtilizationGraph from '../graphs/utilizationgraph';
 import ComplianceGraph from '../graphs/compliancegraph';
 import DashboardTile from '../layout/dashboardtile';
-import { fetchCostDetail, fetchDashboardOverview, fetchInventoryDetail } from '../../services/dashboard.service';
+import { fetchComplianceDetail, fetchCostDetail, fetchDashboardOverview, fetchInventoryDetail, fetchStorageDetail, fetchUtilizationDetail } from '../../services/dashboard.service';
 import type { CostDetailApiRow } from '../graphs/costgraph';
 import type { InventoryDetailApiRow } from '../graphs/inventorygraph';
-import type { CardConfig, CardId, SubGridItem } from '../../types/dashboard.types';
+import type { CardConfig, CardId, ComplianceDetailApiRow, StorageDetailApiRow, SubGridItem, UtilizationDetailApiRow } from '../../types/dashboard.types';
 
 type DashboardCardConfig = CardConfig & {
   activeContent?: () => ReactNode;
@@ -141,12 +141,30 @@ export default function Dashboard() {
     queryFn: fetchCostDetail,
   });
 
+  const { data: complianceData } = useQuery({
+    queryKey: ['compliance-detail'],
+    queryFn: fetchComplianceDetail,
+  });
+
+  const { data: utilizationData } = useQuery({
+    queryKey: ['utilization-detail'],
+    queryFn: fetchUtilizationDetail,
+  });
+
+  const { data: storageData } = useQuery({
+    queryKey: ['storage-detail'],
+    queryFn: fetchStorageDetail,
+  });
+
   const overview = data?.data as any;
   const apps = overview?.applications?.list ?? [];
   const statuses = overview?.applications?.statuses ?? [];
   const summary = overview?.summary;
   const costRows = (costData?.data?.data ?? []) as CostDetailApiRow[];
   const inventoryRows = (inventoryData?.data?.data ?? []) as InventoryDetailApiRow[];
+  const complianceRows = (complianceData?.data?.data ?? []) as ComplianceDetailApiRow[];
+  const utilizationRows = (utilizationData?.data?.data ?? []) as UtilizationDetailApiRow[];
+  const storageRows = (storageData?.data?.data ?? []) as StorageDetailApiRow[];
 
   const cardsWithOverview = useMemo(() => {
     return cards.map((card) => {
@@ -343,6 +361,12 @@ export default function Dashboard() {
                         ? <InventoryGraph rows={inventoryRows} />
                         : card.id === 'cost'
                           ? <CostGraph rows={costRows} />
+                        : card.id === 'compliance'
+                          ? <ComplianceGraph rows={complianceRows} />
+                        : card.id === 'utilization'
+                          ? <UtilizationGraph rows={utilizationRows} />
+                        : card.id === 'storage'
+                          ? <StorageGraph rows={storageRows} />
                         : card.activeContent?.() ?? null
                       : null}
                   </DashboardTile>

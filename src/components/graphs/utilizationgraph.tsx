@@ -1,50 +1,15 @@
 import React from 'react';
 import { AreaChart, Area, ResponsiveContainer, YAxis, XAxis, CartesianGrid } from 'recharts';
 
-export const utilizationDetailSeries = [
-  { cpu: 10, io1: 160, io2: 100, disk1: 52, disk2: 24 },
-  { cpu: 12, io1: 180, io2: 120, disk1: 50, disk2: 26 },
-  { cpu: 8,  io1: 140, io2: 130, disk1: 53, disk2: 25 },
-  { cpu: 11, io1: 190, io2: 150, disk1: 55, disk2: 24 },
-  { cpu: 9,  io1: 130, io2: 110, disk1: 50, disk2: 28 },
-  { cpu: 14, io1: 170, io2: 140, disk1: 54, disk2: 30 },
-  { cpu: 11, io1: 140, io2: 160, disk1: 52, disk2: 24 },
-  { cpu: 10, io1: 180, io2: 140, disk1: 50, disk2: 26 },
-  { cpu: 13, io1: 150, io2: 110, disk1: 53, disk2: 25 },
-  { cpu: 10, io1: 160, io2: 130, disk1: 51, disk2: 28 },
-  { cpu: 12, io1: 120, io2: 150, disk1: 52, disk2: 24 },
-  { cpu: 15, io1: 180, io2: 110, disk1: 56, disk2: 29 },
-  { cpu: 10, io1: 140, io2: 130, disk1: 52, disk2: 25 },
-  { cpu: 11, io1: 190, io2: 150, disk1: 55, disk2: 24 },
-  { cpu: 8,  io1: 120, io2: 120, disk1: 51, disk2: 27 },
-  { cpu: 14, io1: 170, io2: 140, disk1: 54, disk2: 30 },
-  { cpu: 10, io1: 140, io2: 160, disk1: 52, disk2: 24 },
-  { cpu: 9,  io1: 180, io2: 140, disk1: 50, disk2: 26 },
-  { cpu: 11, io1: 150, io2: 110, disk1: 53, disk2: 25 },
-  { cpu: 13, io1: 160, io2: 130, disk1: 51, disk2: 28 },
-  { cpu: 10, io1: 160, io2: 100, disk1: 52, disk2: 24 },
-  { cpu: 12, io1: 180, io2: 120, disk1: 50, disk2: 26 },
-  { cpu: 8,  io1: 140, io2: 130, disk1: 53, disk2: 25 },
-  { cpu: 11, io1: 190, io2: 150, disk1: 55, disk2: 24 },
-  { cpu: 9,  io1: 130, io2: 110, disk1: 50, disk2: 28 },
-  { cpu: 14, io1: 170, io2: 140, disk1: 54, disk2: 30 },
-  { cpu: 11, io1: 140, io2: 160, disk1: 52, disk2: 24 },
-  { cpu: 10, io1: 180, io2: 140, disk1: 50, disk2: 26 },
-  { cpu: 13, io1: 150, io2: 110, disk1: 53, disk2: 25 },
-  { cpu: 10, io1: 160, io2: 130, disk1: 51, disk2: 28 },
-  { cpu: 8,  io1: 130, io2: 170, disk1: 50, disk2: 22 },
-  { cpu: 11, io1: 160, io2: 140, disk1: 55, disk2: 28 },
-  { cpu: 10, io1: 190, io2: 150, disk1: 53, disk2: 24 },
-  { cpu: 14, io1: 150, io2: 120, disk1: 51, disk2: 27 },
-  { cpu: 12, io1: 170, io2: 140, disk1: 54, disk2: 30 },
-  { cpu: 11, io1: 140, io2: 160, disk1: 52, disk2: 24 },
-  { cpu: 10, io1: 180, io2: 140, disk1: 50, disk2: 26 },
-  { cpu: 8,  io1: 150, io2: 110, disk1: 53, disk2: 25 },
-  { cpu: 12, io1: 160, io2: 130, disk1: 51, disk2: 28 },
-  { cpu: 14, io1: 180, io2: 150, disk1: 54, disk2: 31 },
-];
+import type { UtilizationDetailApiRow } from '../../types/dashboard.types';
 
-const UtilizationGraph = ({ detail = false }) => {
+type UtilizationGraphProps = {
+  detail?: boolean;
+  rows?: UtilizationDetailApiRow[];
+};
+
+const UtilizationGraph = ({ detail = false, rows }: UtilizationGraphProps) => {
+  const chartRows = rows ?? [];
   const chartHeight = detail ? 84 : 52;
   const rowOffsetClass = detail ? 'mt-10' : 'mt-4';
   const firstRowOffsetClass = detail ? 'mt-2' : 'mt-1';
@@ -61,7 +26,7 @@ const UtilizationGraph = ({ detail = false }) => {
         </div>
         <div className="flex-1 relative">
           <ResponsiveContainer width="100%" height={chartHeight}>
-            <AreaChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+            <AreaChart data={chartRows} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <defs>
                 <linearGradient id="colorCpu" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#E91E63" stopOpacity={0}/>
@@ -86,7 +51,7 @@ const UtilizationGraph = ({ detail = false }) => {
         </div>
         <div className="flex-1 relative">
           <ResponsiveContainer width="100%" height={chartHeight}>
-            <AreaChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+            <AreaChart data={chartRows} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <defs>
                 <linearGradient id="colorIo1" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#8BC34A" stopOpacity={0}/>
@@ -117,7 +82,7 @@ const UtilizationGraph = ({ detail = false }) => {
         </div>
         <div className="flex-1 relative">
           <ResponsiveContainer width="100%" height={chartHeight}>
-            <AreaChart data={utilizationDetailSeries} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
+            <AreaChart data={chartRows} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
               <defs>
                 <linearGradient id="colorDisk1" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#FF9800" stopOpacity={0}/>

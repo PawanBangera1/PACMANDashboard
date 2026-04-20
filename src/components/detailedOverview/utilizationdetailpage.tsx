@@ -1,8 +1,10 @@
 import { Download, Share2, X } from 'lucide-react';
-import UtilizationGraph, { utilizationDetailSeries } from '../graphs/utilizationgraph';
+import { useQuery } from '@tanstack/react-query';
+import UtilizationGraph from '../graphs/utilizationgraph';
 import Dashboardheader from '../layout/dashboardheader';
 import DataTable from '../layout/datatable';
-import type { UtilizationDetailRow } from '../../types/dashboard.types';
+import type { UtilizationDetailApiRow, UtilizationDetailRow } from '../../types/dashboard.types';
+import { fetchUtilizationDetail } from '../../services/dashboard.service';
 
 const utilizationDetailColumns = [
   { key: 'label1', label: 'Sample' },
@@ -14,7 +16,7 @@ const utilizationDetailColumns = [
   { key: 'label7', label: 'Status' },
 ];
 
-const utilizationDetailRows: UtilizationDetailRow[] = utilizationDetailSeries.map((point, index) => {
+const buildUtilizationRows = (rows: UtilizationDetailApiRow[]): UtilizationDetailRow[] => rows.map((point, index) => {
   const ioAvg = (point.io1 + point.io2) / 2;
   const diskAvg = (point.disk1 + point.disk2) / 2;
   const ioSpread = Math.abs(point.io1 - point.io2);
@@ -32,6 +34,30 @@ const utilizationDetailRows: UtilizationDetailRow[] = utilizationDetailSeries.ma
 });
 
 export default function UtilizationDetailPage() {
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['utilization-detail'],
+    queryFn: fetchUtilizationDetail,
+  });
+
+  const utilizationSeries = (data?.data?.data ?? []) as UtilizationDetailApiRow[];
+  const utilizationDetailRows = buildUtilizationRows(utilizationSeries);
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-slate-500">
+        Loading utilization detail...
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-white text-red-600">
+        {(error as Error).message}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen px-16 py-4">
       <Dashboardheader compact />
@@ -63,7 +89,7 @@ export default function UtilizationDetailPage() {
         </div>
 
         <div className="mb-6 p-3 md:p-6">
-          <UtilizationGraph detail />
+          <UtilizationGraph detail rows={utilizationSeries} />
         </div>
 
         <div className="mb-4 border-t border-slate-300" />
